@@ -28,6 +28,7 @@ task compileJavacpp(type: JavaExec) {
     '-cp', cp,
     '-Xcompiler', includePath + '\\nanodbc.cpp',
     '-Xcompiler', 'odbc32.lib',
+    '-Xcompiler', 'odbccp32.lib',
     '-Xcompiler', '/I' + includePath
   ]
 }
