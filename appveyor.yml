@@ -3,6 +3,7 @@ environment:
     - VSVER: 14
 
 platform:
+  - x86
   - x64
 
 build_script:
