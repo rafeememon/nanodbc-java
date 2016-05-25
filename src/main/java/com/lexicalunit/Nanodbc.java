@@ -15,6 +15,24 @@ public class Nanodbc {
         static {
             Loader.load();
         }
+
+        public Connection() {
+            allocate();
+        }
+
+        public Connection(String connectionString, long timeout) {
+            allocate(connectionString, timeout);
+        }
+
+        private native void allocate();
+
+        private native void allocate(String connectionString, long timeout);
+
+        public native void connect(String connectionString, long timeout);
+
+        public native boolean connected();
+
+        public native void disconnect();
     }
 
 }

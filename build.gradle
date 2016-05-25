@@ -26,6 +26,8 @@ task compileJavacpp(type: JavaExec) {
   main = 'org.bytedeco.javacpp.tools.Builder'
   args = [
     '-cp', cp,
+    '-Xcompiler', includePath + '\\nanodbc.cpp',
+    '-Xcompiler', 'odbc32.lib',
     '-Xcompiler', '/I' + includePath
   ]
 }
