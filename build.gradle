@@ -1,0 +1,14 @@
+apply plugin: "java"
+apply plugin: "eclipse"
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  compile group: "org.bytedeco", name: "javacpp", version: javacppVersion
+}
+
