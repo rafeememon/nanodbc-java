@@ -6,7 +6,7 @@ platform:
   - x86
   - x64
 
-build_script:
+before_build:
   - ps: >-
       If ($env:Platform -Match "x86") {
         $env:PCRE_PLATFORM="Win32"
@@ -23,7 +23,9 @@ build_script:
   - echo "Using Visual Studio %VSVER%.0 at %VSCOMNTOOLS%"
   - call "%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat" %VCVARS_PLATFORM%
   - git submodule update --init
-  - ./gradlew --info build
+
+build_script:
+  - gradlew.bat --info build
 
 artifacts:
   - path: build/libs/*.jar
