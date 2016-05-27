@@ -20,16 +20,20 @@ dependencies {
 
 task compileJavacpp(type: JavaExec) {
   def cp = sourceSets.main.output.getFiles().join(File.pathSeparator)
-  def includePath = file('.').toString() + '\\nanodbc\\src'
+  def includePathNanodbc = file('.').toString() + '\\nanodbc\\src'
+  def includePathNanodbcJava = file('.').toString() + '\\src\\main\\cpp'
 
   classpath = configurations.javacpp
   main = 'org.bytedeco.javacpp.tools.Builder'
   args = [
     '-cp', cp,
-    '-Xcompiler', includePath + '\\nanodbc.cpp',
+    '-Xcompiler', includePathNanodbc + '\\nanodbc.cpp',
+    '-Xcompiler', includePathNanodbcJava + '\\nanodbc_java.cpp',
     '-Xcompiler', 'odbc32.lib',
     '-Xcompiler', 'odbccp32.lib',
-    '-Xcompiler', '/I' + includePath
+    '-Xcompiler', '/I' + includePathNanodbc,
+    '-Xcompiler', '/I' + includePathNanodbcJava,
+    '-Xcompiler', '/DNANODBC_DISABLE_ASYNC'
   ]
 }
 
