@@ -2,6 +2,7 @@ package com.lexicalunit.nanodbc;
 
 import java.sql.JDBCType;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public interface Result extends AutoCloseable {
 
@@ -38,6 +39,10 @@ public interface Result extends AutoCloseable {
     LocalDate getDate(short column);
 
     LocalDate getDate(String columnName);
+
+    LocalDateTime getDateTime(short column);
+
+    LocalDateTime getDateTime(String columnName);
 
     @Override
     void close();
