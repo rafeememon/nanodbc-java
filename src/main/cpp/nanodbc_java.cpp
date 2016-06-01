@@ -8,4 +8,9 @@ void execute(result& result, connection& conn, const string_type& query, long ba
     result = execute(conn, query, batch_operations, timeout);
 }
 
+void execute(result& result, statement& stmt, long batch_operations)
+{
+    result = execute(stmt, batch_operations);
+}
+
 }

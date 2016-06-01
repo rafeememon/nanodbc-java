@@ -10,6 +10,8 @@ public interface Connection extends AutoCloseable {
 
     Result execute(String query, long batchOperations, long timeout);
 
+    Statement prepare(String query, long timeout);
+
     @Override
     void close();
 
