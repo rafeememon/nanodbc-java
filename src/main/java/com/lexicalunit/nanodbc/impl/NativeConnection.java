@@ -46,7 +46,7 @@ public class NativeConnection extends Pointer implements Connection {
 
     @Override
     public NativeStatement prepare(String query, long timeout) {
-        return new NativeStatement(this, query, timeout);
+        return NativeStatement.create(this, query, timeout);
     }
 
 }
