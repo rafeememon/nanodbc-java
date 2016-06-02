@@ -99,7 +99,7 @@ public class NativeResult extends Pointer implements Result {
     public LocalDate getDate(short column) {
         try (NativeDate date = new NativeDate()) {
             getDateRef(column, date);
-            return getLocalDate(date);
+            return date.toLocalDate();
         }
     }
 
@@ -107,7 +107,7 @@ public class NativeResult extends Pointer implements Result {
     public LocalDate getDate(String columnName) {
         try (NativeDate date = new NativeDate()) {
             getDateRef(columnName, date);
-            return getLocalDate(date);
+            return date.toLocalDate();
         }
     }
 
@@ -117,15 +117,11 @@ public class NativeResult extends Pointer implements Result {
     @Name("get_ref<::nanodbc::date>")
     private native void getDateRef(String columnName, @ByRef NativeDate date);
 
-    private static LocalDate getLocalDate(NativeDate date) {
-        return LocalDate.of(date.getYear(), date.getMonth(), date.getDay());
-    }
-
     @Override
     public LocalDateTime getDateTime(short column) {
         try (NativeDateTime dateTime = new NativeDateTime()) {
             getDateTimeRef(column, dateTime);
-            return getLocalDateTime(dateTime);
+            return dateTime.toLocalDateTime();
         }
     }
 
@@ -133,7 +129,7 @@ public class NativeResult extends Pointer implements Result {
     public LocalDateTime getDateTime(String columnName) {
         try (NativeDateTime dateTime = new NativeDateTime()) {
             getDateTimeRef(columnName, dateTime);
-            return getLocalDateTime(dateTime);
+            return dateTime.toLocalDateTime();
         }
     }
 
@@ -142,10 +138,5 @@ public class NativeResult extends Pointer implements Result {
 
     @Name("get_ref<::nanodbc::timestamp>")
     private native void getDateTimeRef(String columnName, @ByRef NativeDateTime date);
-
-    private static LocalDateTime getLocalDateTime(NativeDateTime dateTime) {
-        return LocalDateTime.of(dateTime.getYear(), dateTime.getMonth(), dateTime.getDay(), dateTime.getHour(),
-                dateTime.getMinute(), dateTime.getSecond(), dateTime.getFract() * 100_000);
-    }
 
 }
