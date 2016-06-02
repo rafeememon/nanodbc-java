@@ -52,4 +52,12 @@ class NativeDate extends Pointer {
         return LocalDate.of(getYear(), getMonth(), getDay());
     }
 
+    public static NativeDate fromLocalDate(LocalDate localDate) {
+        NativeDate date = new NativeDate();
+        date.setYear(localDate.getYear());
+        date.setMonth(localDate.getMonthValue());
+        date.setDay(localDate.getDayOfMonth());
+        return date;
+    }
+
 }

@@ -61,7 +61,7 @@ class NativeDateTime extends Pointer {
     public native int getMinute();
 
     @MemberSetter
-    @Name("minute")
+    @Name("min")
     public native void setMinute(int minute);
 
     @MemberGetter
@@ -69,7 +69,7 @@ class NativeDateTime extends Pointer {
     public native int getSecond();
 
     @MemberSetter
-    @Name("second")
+    @Name("sec")
     public native void setSecond(int second);
 
     @MemberGetter
@@ -83,6 +83,18 @@ class NativeDateTime extends Pointer {
     public LocalDateTime toLocalDateTime() {
         return LocalDateTime.of(getYear(), getMonth(), getDay(), getHour(), getMinute(), getSecond(),
                 getFract() * 100_000);
+    }
+
+    public static NativeDateTime fromLocalDateTime(LocalDateTime localDateTime) {
+        NativeDateTime dateTime = new NativeDateTime();
+        dateTime.setYear(localDateTime.getYear());
+        dateTime.setMonth(localDateTime.getMonthValue());
+        dateTime.setDay(localDateTime.getDayOfMonth());
+        dateTime.setHour(localDateTime.getHour());
+        dateTime.setMinute(localDateTime.getMinute());
+        dateTime.setSecond(localDateTime.getSecond());
+        dateTime.setFract(localDateTime.getNano() / 100_000);
+        return dateTime;
     }
 
 }

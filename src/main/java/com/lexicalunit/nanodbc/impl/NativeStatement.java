@@ -1,5 +1,7 @@
 package com.lexicalunit.nanodbc.impl;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,6 +82,26 @@ class NativeStatement extends Pointer implements Statement {
 
     @Name("bind<::nanodbc::string_type::value_type>")
     private native void bind(short column, @Cast("::nanodbc::string_type::value_type*") BytePointer bytePointer);
+
+    @Override
+    public void bind(short column, LocalDate date) {
+        NativeDate datePointer = NativeDate.fromLocalDate(date);
+        parameterPointers.add(datePointer);
+        bind(column, datePointer);
+    }
+
+    @Name("bind<::nanodbc::date>")
+    private native void bind(short column, NativeDate datePointer);
+
+    @Override
+    public void bind(short column, LocalDateTime dateTime) {
+        NativeDateTime dateTimePointer = NativeDateTime.fromLocalDateTime(dateTime);
+        parameterPointers.add(dateTimePointer);
+        bind(column, dateTimePointer);
+    }
+
+    @Name("bind<::nanodbc::timestamp>")
+    private native void bind(short column, NativeDateTime dateTimePointer);
 
     @Override
     @Name("bind_null")
