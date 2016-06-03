@@ -15,4 +15,6 @@ class NativeUtil {
     static native void execute(@ByRef NativeResult result, @ByRef NativeConnection conn, String query,
             long batchOperations, long timeout);
 
+    static native void execute(@ByRef NativeResult result, @ByRef NativeStatement statement, long batchOperations);
+
 }
