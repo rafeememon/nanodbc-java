@@ -1,10 +1,19 @@
 environment:
+  global:
+    PGHOST: 127.0.0.1
+    PGPORT: 5432
+    PGUSER: postgres
+    PGPASSWORD: Password12!
+    PGDATABASE: appveyordb
   matrix:
     - VSVER: 14
 
 platform:
   - x86
   - x64
+
+services:
+  - postgresql94
 
 before_build:
   - ps: >-
@@ -22,6 +31,7 @@ before_build:
   - ps: $env:VSCOMNTOOLS=(Get-Content ("env:VS" + "$env:VSVER" + "0COMNTOOLS"))
   - echo "Using Visual Studio %VSVER%.0 at %VSCOMNTOOLS%"
   - call "%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat" %VCVARS_PLATFORM%
+  - call "C:\Program Files\PostgreSQL\9.4\bin\createdb" %PGDATABASE%
   - git submodule update --init
 
 build_script:
