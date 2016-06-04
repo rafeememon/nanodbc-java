@@ -16,6 +16,8 @@ dependencies {
   javacpp group: 'org.bytedeco', name: 'javacpp', version: javacppVersion
 
   compile group: 'org.bytedeco', name: 'javacpp', version: javacppVersion
+
+  testCompile group: 'junit', name: 'junit', version: junitVersion
 }
 
 task compileJavacpp(type: JavaExec) {
