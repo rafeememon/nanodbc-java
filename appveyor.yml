@@ -30,3 +30,6 @@ build_script:
 artifacts:
   - path: build/libs/*.jar
     name: libs
+
+  - path: build/reports
+    name: reports
