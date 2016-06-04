@@ -18,7 +18,7 @@ class NativeDateTime extends Pointer {
         Loader.load();
     }
 
-    public NativeDateTime() {
+    NativeDateTime() {
         allocate();
     }
 
@@ -26,66 +26,66 @@ class NativeDateTime extends Pointer {
 
     @MemberGetter
     @Name("year")
-    public native int getYear();
+    native int getYear();
 
     @MemberSetter
     @Name("year")
-    public native void setYear(int year);
+    native void setYear(int year);
 
     @MemberGetter
     @Name("month")
-    public native int getMonth();
+    native int getMonth();
 
     @MemberSetter
     @Name("month")
-    public native void setMonth(int month);
+    native void setMonth(int month);
 
     @MemberGetter
     @Name("day")
-    public native int getDay();
+    native int getDay();
 
     @MemberSetter
     @Name("day")
-    public native void setDay(int day);
+    native void setDay(int day);
 
     @MemberGetter
     @Name("hour")
-    public native int getHour();
+    native int getHour();
 
     @MemberSetter
     @Name("hour")
-    public native void setHour(int hour);
+    native void setHour(int hour);
 
     @MemberGetter
     @Name("min")
-    public native int getMinute();
+    native int getMinute();
 
     @MemberSetter
     @Name("min")
-    public native void setMinute(int minute);
+    native void setMinute(int minute);
 
     @MemberGetter
     @Name("sec")
-    public native int getSecond();
+    native int getSecond();
 
     @MemberSetter
     @Name("sec")
-    public native void setSecond(int second);
+    native void setSecond(int second);
 
     @MemberGetter
     @Name("fract")
-    public native int getFract();
+    native int getFract();
 
     @MemberSetter
     @Name("fract")
-    public native void setFract(int fract);
+    native void setFract(int fract);
 
-    public LocalDateTime toLocalDateTime() {
+    LocalDateTime toLocalDateTime() {
         return LocalDateTime.of(getYear(), getMonth(), getDay(), getHour(), getMinute(), getSecond(),
                 getFract() * 100_000);
     }
 
-    public static NativeDateTime fromLocalDateTime(LocalDateTime localDateTime) {
+    static NativeDateTime fromLocalDateTime(LocalDateTime localDateTime) {
         NativeDateTime dateTime = new NativeDateTime();
         dateTime.setYear(localDateTime.getYear());
         dateTime.setMonth(localDateTime.getMonthValue());

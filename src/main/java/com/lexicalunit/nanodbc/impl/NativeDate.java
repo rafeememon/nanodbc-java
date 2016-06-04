@@ -26,33 +26,33 @@ class NativeDate extends Pointer {
 
     @MemberGetter
     @Name("year")
-    public native int getYear();
+    native int getYear();
 
     @MemberSetter
     @Name("year")
-    public native void setYear(int year);
+    native void setYear(int year);
 
     @MemberGetter
     @Name("month")
-    public native int getMonth();
+    native int getMonth();
 
     @MemberSetter
     @Name("month")
-    public native void setMonth(int month);
+    native void setMonth(int month);
 
     @MemberGetter
     @Name("day")
-    public native int getDay();
+    native int getDay();
 
     @MemberSetter
     @Name("day")
-    public native void setDay(int day);
+    native void setDay(int day);
 
-    public LocalDate toLocalDate() {
+    LocalDate toLocalDate() {
         return LocalDate.of(getYear(), getMonth(), getDay());
     }
 
-    public static NativeDate fromLocalDate(LocalDate localDate) {
+    static NativeDate fromLocalDate(LocalDate localDate) {
         NativeDate date = new NativeDate();
         date.setYear(localDate.getYear());
         date.setMonth(localDate.getMonthValue());
