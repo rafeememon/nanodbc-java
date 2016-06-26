@@ -1,1 +1,8 @@
-rootProject.name = 'nanodbc'
+def rootName = 'nanodbc'
+def platform = System.getenv('Platform')
+
+if (platform != null) {
+  rootProject.name = rootName + '-' + platform.toLowerCase()
+} else {
+  rootProject.name = rootName
+}
