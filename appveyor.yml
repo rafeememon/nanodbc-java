@@ -29,4 +29,13 @@ build_script:
 
 artifacts:
   - path: build/libs/*.jar
-    name: libs
+    name: jar
+
+deploy:
+  provider: GitHub
+  auth_token:
+    secure: 6ZDfiJcBv9dQpihK+9mfiFXJpwhsjEAZbnudxX/BnvQEvosjV0X4E8+Oinys64Ap
+  artifact: jar
+  on:
+    branch: master
+    appveyor_repo_tag: true
