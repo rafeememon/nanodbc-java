@@ -3,6 +3,7 @@ package com.lexicalunit.nanodbc.impl;
 import java.sql.JDBCType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import org.bytedeco.javacpp.Loader;
 import org.bytedeco.javacpp.Pointer;
@@ -116,6 +117,28 @@ public class NativeResult extends Pointer implements Result {
 
     @Name("get_ref<::nanodbc::date>")
     private native void getDateRef(String columnName, @ByRef NativeDate date);
+
+    @Override
+    public LocalTime getTime(short column) {
+        try (NativeTime time = new NativeTime()) {
+            getTimeRef(column, time);
+            return time.toLocalTime();
+        }
+    }
+
+    @Override
+    public LocalTime getTime(String columnName) {
+        try (NativeTime time = new NativeTime()) {
+            getTimeRef(columnName, time);
+            return time.toLocalTime();
+        }
+    }
+
+    @Name("get_ref<::nanodbc::time>")
+    private native void getTimeRef(short column, @ByRef NativeTime time);
+
+    @Name("get_ref<::nanodbc::time>")
+    private native void getTimeRef(String columnName, @ByRef NativeTime time);
 
     @Override
     public LocalDateTime getDateTime(short column) {

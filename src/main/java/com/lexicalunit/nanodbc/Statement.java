@@ -2,6 +2,7 @@ package com.lexicalunit.nanodbc;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public interface Statement extends AutoCloseable {
 
@@ -14,6 +15,8 @@ public interface Statement extends AutoCloseable {
     void bind(short column, String value);
 
     void bind(short column, LocalDate value);
+
+    void bind(short column, LocalTime value);
 
     void bind(short column, LocalDateTime value);
 
