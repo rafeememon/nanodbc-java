@@ -4,6 +4,8 @@ public interface Connection extends AutoCloseable {
 
     void connect(String connectionString, long timeout);
 
+    void connect(String dsn, String user, String pass, long timeout);
+
     boolean connected();
 
     void disconnect();

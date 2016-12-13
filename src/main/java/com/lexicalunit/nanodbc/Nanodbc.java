@@ -12,4 +12,8 @@ public class Nanodbc {
         return new NativeConnection(connectionString, timeout);
     }
 
+    public static Connection newConnection(String dsn, String user, String pass, long timeout) {
+        return new NativeConnection(dsn, user, pass, timeout);
+    }
+
 }

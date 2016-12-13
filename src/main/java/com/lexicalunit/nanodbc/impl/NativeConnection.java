@@ -24,12 +24,21 @@ public class NativeConnection extends Pointer implements Connection {
         allocate(connectionString, timeout);
     }
 
+    public NativeConnection(String dsn, String user, String pass, long timeout) {
+        allocate(dsn, user, pass, timeout);
+    }
+
     private native void allocate();
 
     private native void allocate(String connectionString, long timeout);
 
+    private native void allocate(String dsn, String user, String pass, long timeout);
+
     @Override
     public native void connect(String connectionString, long timeout);
+
+    @Override
+    public native void connect(String dsn, String user, String pass, long timeout);
 
     @Override
     public native boolean connected();
