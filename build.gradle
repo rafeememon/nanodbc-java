@@ -1,3 +1,7 @@
+plugins {
+  id 'com.github.johnrengelman.shadow' version '1.2.4'
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 
@@ -19,6 +23,10 @@ dependencies {
 }
 
 jar {
+  from sourceSets.main.allSource
+}
+
+shadowJar {
   from sourceSets.main.allSource
 }
 
