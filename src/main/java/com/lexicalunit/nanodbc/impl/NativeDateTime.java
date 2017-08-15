@@ -81,8 +81,7 @@ class NativeDateTime extends Pointer {
     public native void setFract(int fract);
 
     public LocalDateTime toLocalDateTime() {
-        return LocalDateTime.of(getYear(), getMonth(), getDay(), getHour(), getMinute(), getSecond(),
-                getFract() * 100_000);
+        return LocalDateTime.of(getYear(), getMonth(), getDay(), getHour(), getMinute(), getSecond());
     }
 
     public static NativeDateTime fromLocalDateTime(LocalDateTime localDateTime) {
