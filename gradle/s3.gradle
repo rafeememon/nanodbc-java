@@ -1,0 +1,40 @@
+import com.amazonaws.auth.AWSCredentials
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain
+
+def s3Url = 's3://rafee-maven/releases'
+
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath group: 'com.amazonaws', name: 'aws-java-sdk-core', version: awsJavaSdkCoreVersion
+  }
+}
+
+def fetchAwsCredentials = {
+  try {
+    return DefaultAWSCredentialsProviderChain.getInstance().credentials
+  } catch (Exception e) {
+    logger.warn('Unable to retrieve AWS credentials', e)
+    return null
+  }
+}
+
+AWSCredentials awsCredentials = fetchAwsCredentials()
+
+if (awsCredentials != null) {
+  publishing {
+    repositories {
+      maven {
+        url s3Url
+        credentials(AwsCredentials) {
+          accessKey = awsCredentials.AWSAccessKeyId
+          secretKey = awsCredentials.AWSSecretKey
+        }
+      }
+    }
+  }
+} else {
+  logger.warn('S3 publishing not available')
+}

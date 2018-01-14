@@ -1,9 +1,15 @@
 plugins {
+  id 'java-library'
+  id 'eclipse'
+  id 'maven-publish'
+  id 'com.palantir.git-version' version '0.10.1'
   id 'com.github.johnrengelman.shadow' version '2.0.2'
 }
 
-apply plugin: 'java'
-apply plugin: 'eclipse'
+apply from: 'gradle/s3.gradle'
+
+group = 'com.nanodbc'
+version = gitVersion()
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
@@ -19,15 +25,26 @@ configurations {
 dependencies {
   javacpp group: 'org.bytedeco', name: 'javacpp', version: javacppVersion
 
-  compile group: 'org.bytedeco', name: 'javacpp', version: javacppVersion
-}
-
-jar {
-  from sourceSets.main.allSource
+  implementation group: 'org.bytedeco', name: 'javacpp', version: javacppVersion
 }
 
 shadowJar {
   from sourceSets.main.allSource
+}
+
+task sourceJar(type: Jar) {
+  classifier 'sources'
+  from sourceSets.main.allJava
+}
+
+publishing {
+  publications {
+    mavenJava(MavenPublication) {
+      from components.java
+
+      artifact sourceJar
+    }
+  }
 }
 
 task compileJavacpp(type: JavaExec) {

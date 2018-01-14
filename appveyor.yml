@@ -1,6 +1,9 @@
 environment:
-  matrix:
-    - VSVER: 14
+  VSVER: 14
+  AWS_ACCESS_KEY_ID:
+    secure: bSmjFOhp+jOCcRNdq/i136ZjTrIMLGURIsyEfMQEXH4=
+  AWS_SECRET_ACCESS_KEY:
+    secure: ezJ5cYLOCYDZcsXhfS4hgVC0+T67i2HE0++OVWE8ZEns6aR+KqnqB331x1oPfipO
 
 platform:
   - x86
@@ -31,11 +34,5 @@ artifacts:
   - path: build/libs/*.jar
     name: jar
 
-deploy:
-  provider: GitHub
-  auth_token:
-    secure: 6ZDfiJcBv9dQpihK+9mfiFXJpwhsjEAZbnudxX/BnvQEvosjV0X4E8+Oinys64Ap
-  artifact: jar
-  on:
-    branch: master
-    appveyor_repo_tag: true
+deploy_script:
+  - if "%APPVEYOR_REPO_TAG%"=="true" (gradlew.bat publish -xcompileJavacpp)
