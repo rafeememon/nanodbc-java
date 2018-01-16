@@ -28,7 +28,7 @@ before_build:
   - git submodule update --init
 
 build_script:
-  - gradlew.bat --info build shadowJar
+  - gradlew.bat --info build
 
 artifacts:
   - path: build/libs/*.jar

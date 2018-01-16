@@ -3,7 +3,6 @@ plugins {
   id 'eclipse'
   id 'maven-publish'
   id 'com.palantir.git-version' version '0.10.1'
-  id 'com.github.johnrengelman.shadow' version '2.0.2'
 }
 
 apply from: 'gradle/s3.gradle'
@@ -24,12 +23,7 @@ configurations {
 
 dependencies {
   javacpp group: 'org.bytedeco', name: 'javacpp', version: javacppVersion
-
   implementation group: 'org.bytedeco', name: 'javacpp', version: javacppVersion
-}
-
-shadowJar {
-  from sourceSets.main.allSource
 }
 
 task sourceJar(type: Jar) {
