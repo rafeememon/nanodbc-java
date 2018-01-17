@@ -8,7 +8,7 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath group: 'com.amazonaws', name: 'aws-java-sdk-core', version: awsJavaSdkCoreVersion
+    classpath group: 'com.amazonaws', name: 'aws-java-sdk-core', version: awsJavaSdkVersion
   }
 }
 
