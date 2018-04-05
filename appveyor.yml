@@ -7,7 +7,7 @@ environment:
 
 platform:
   - x86
-  #- x64
+  - x64
 
 before_build:
   - ps: >-
@@ -36,3 +36,6 @@ artifacts:
 
 deploy_script:
   - if "%APPVEYOR_REPO_TAG%"=="true" (gradlew.bat publish -xcompileJavacpp)
+
+cache:
+  - C:\Users\appveyor\.gradle
