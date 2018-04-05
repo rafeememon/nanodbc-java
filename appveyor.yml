@@ -36,3 +36,6 @@ artifacts:
 
 deploy_script:
   - if "%APPVEYOR_REPO_TAG%"=="true" (gradlew.bat publish -xcompileJavacpp)
+
+cache:
+  - C:\Users\appveyor\.gradle
