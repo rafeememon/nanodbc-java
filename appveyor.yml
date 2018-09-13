@@ -1,5 +1,6 @@
+os: Visual Studio 2017
+
 environment:
-  VSVER: 14
   AWS_ACCESS_KEY_ID:
     secure: bSmjFOhp+jOCcRNdq/i136ZjTrIMLGURIsyEfMQEXH4=
   AWS_SECRET_ACCESS_KEY:
@@ -14,17 +15,15 @@ before_build:
       If ($env:Platform -Match "x86") {
         $env:PCRE_PLATFORM="Win32"
         $env:JAVA_HOME="c:/Program Files (x86)/Java/jdk1.8.0"
-        $env:VCVARS_PLATFORM="x86"
+        $env:VCVARS_PATH="vcvars32.bat"
         $env:LANG_PLATFORM=""
       } Else {
         $env:PCRE_PLATFORM="x64"
         $env:JAVA_HOME="c:/Program Files/Java/jdk1.8.0"
-        $env:VCVARS_PLATFORM="amd64"
+        $env:VCVARS_PATH="vcvars64.bat"
         $env:LANG_PLATFORM="-x64"
       }
-  - ps: $env:VSCOMNTOOLS=(Get-Content ("env:VS" + "$env:VSVER" + "0COMNTOOLS"))
-  - echo "Using Visual Studio %VSVER%.0 at %VSCOMNTOOLS%"
-  - call "%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat" %VCVARS_PLATFORM%
+  - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\%VCVARS_PATH%"
   - git submodule update --init
 
 build_script:
