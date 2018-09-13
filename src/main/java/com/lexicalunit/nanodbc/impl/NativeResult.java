@@ -89,11 +89,11 @@ public class NativeResult extends Pointer implements Result {
     public native double getDouble(String columnName);
 
     @Override
-    @Name("get<::nanodbc::string_type>")
+    @Name("get<::nanodbc::string>")
     public native @StdString String getString(short column);
 
     @Override
-    @Name("get<::nanodbc::string_type>")
+    @Name("get<::nanodbc::string>")
     public native @StdString String getString(String columnName);
 
     @Override
