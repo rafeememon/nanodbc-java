@@ -89,6 +89,14 @@ public class NativeResult extends Pointer implements Result {
     public native double getDouble(String columnName);
 
     @Override
+    @Name("get<bool>")
+    public native boolean getBool(short column);
+
+    @Override
+    @Name("get<bool>")
+    public native boolean getBool(String columnName);
+
+    @Override
     @Name("get<::nanodbc::string>")
     public native @StdString String getString(short column);
 

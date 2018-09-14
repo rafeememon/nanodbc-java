@@ -33,6 +33,10 @@ public interface Result extends AutoCloseable {
 
     double getDouble(String columnName);
 
+    boolean getBool(short column);
+
+    boolean getBool(String columnName);
+
     String getString(short column);
 
     String getString(String columnName);

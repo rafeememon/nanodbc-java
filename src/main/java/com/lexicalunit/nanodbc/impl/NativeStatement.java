@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bytedeco.javacpp.BoolPointer;
 import org.bytedeco.javacpp.BytePointer;
 import org.bytedeco.javacpp.DoublePointer;
 import org.bytedeco.javacpp.FloatPointer;
@@ -73,6 +74,17 @@ class NativeStatement extends Pointer implements Statement {
 
     @Name("bind<double>")
     private native void bind(short column, DoublePointer doublePointer);
+
+    @Override
+    public void bind(short column, boolean value) {
+        BoolPointer boolPointer = new BoolPointer(1L);
+        boolPointer.put(value);
+        parameterPointers.add(boolPointer);
+        bind(column, boolPointer);
+    }
+
+    @Name("bind<bool>")
+    private native void bind(short column, BoolPointer boolPointer);
 
     @Override
     public void bind(short column, String value) {

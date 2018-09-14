@@ -12,6 +12,8 @@ public interface Statement extends AutoCloseable {
 
     void bind(short column, double value);
 
+    void bind(short column, boolean value);
+
     void bind(short column, String value);
 
     void bind(short column, LocalDate value);
