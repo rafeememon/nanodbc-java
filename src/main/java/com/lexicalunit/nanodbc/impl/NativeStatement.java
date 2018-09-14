@@ -20,7 +20,7 @@ import org.bytedeco.javacpp.annotation.Platform;
 
 import com.lexicalunit.nanodbc.Statement;
 
-@Platform(include = "nanodbc_java.h")
+@Platform(include = "nanodbc_ext.h")
 @Namespace("nanodbc")
 @Name("statement")
 class NativeStatement extends Pointer implements Statement {

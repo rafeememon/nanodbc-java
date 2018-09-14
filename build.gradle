@@ -26,6 +26,11 @@ dependencies {
   implementation group: 'org.bytedeco', name: 'javacpp', version: javacppVersion
 }
 
+jar {
+  // Don't include unnecessary compiler outputs.
+  exclude '**/*.exp', '**/*.lib', '**/*.obj'
+}
+
 task sourceJar(type: Jar) {
   classifier 'sources'
   from sourceSets.main.allJava
@@ -41,25 +46,38 @@ publishing {
   }
 }
 
-def nanodbcPath = rootDir.toString() + '\\nanodbc'
-def nanodbcJavaPath = rootDir.toString() + '\\src\\main\\cpp'
+def nanodbcPath = "${rootDir.toString()}\\nanodbc"
+def nanodbcExtPath = "${rootDir.toString()}\\nanodbc_ext"
 def nanodbcJavaOutputs = sourceSets.main.output.getFiles()
 
-task compileJavacpp(type: JavaExec) {
-  dependsOn compileJava, processResources
+task cmakeNanodbc(type: Exec) {
+  commandLine 'cmake', '.'
+}
+
+task buildNanodbc(type: Exec) {
+  dependsOn cmakeNanodbc
+
+  commandLine 'msbuild'
+  args = [
+    'ALL_BUILD.vcxproj',
+    '/p:Configuration=Release'
+  ]
+}
+
+task processJavacpp(type: JavaExec) {
+  dependsOn compileJava, processResources, buildNanodbc
 
   classpath = configurations.javacpp
   main = 'org.bytedeco.javacpp.tools.Builder'
   args = [
     '-cp', nanodbcJavaOutputs.join(File.pathSeparator),
-    '-Xcompiler', nanodbcPath + '\\nanodbc\\nanodbc.cpp',
-    '-Xcompiler', nanodbcJavaPath + '\\nanodbc_java.cpp',
+    '-Xcompiler', "${nanodbcPath}\\Release\\nanodbc.lib",
+    '-Xcompiler', "${nanodbcExtPath}\\Release\\nanodbc_ext.lib",
     '-Xcompiler', 'odbc32.lib',
     '-Xcompiler', 'odbccp32.lib',
-    '-Xcompiler', '/I' + nanodbcPath,
-    '-Xcompiler', '/I' + nanodbcJavaPath,
-    '-Xcompiler', '/DNANODBC_DISABLE_ASYNC'
+    '-Xcompiler', "/I${nanodbcPath}",
+    '-Xcompiler', "/I${nanodbcExtPath}"
   ]
 }
 
-classes.dependsOn compileJavacpp
+classes.dependsOn processJavacpp
