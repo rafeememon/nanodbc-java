@@ -41,7 +41,7 @@ publishing {
   }
 }
 
-def nanodbcPath = rootDir.toString() + '\\nanodbc\\src'
+def nanodbcPath = rootDir.toString() + '\\nanodbc'
 def nanodbcJavaPath = rootDir.toString() + '\\src\\main\\cpp'
 def nanodbcJavaOutputs = sourceSets.main.output.getFiles()
 
@@ -52,7 +52,7 @@ task compileJavacpp(type: JavaExec) {
   main = 'org.bytedeco.javacpp.tools.Builder'
   args = [
     '-cp', nanodbcJavaOutputs.join(File.pathSeparator),
-    '-Xcompiler', nanodbcPath + '\\nanodbc.cpp',
+    '-Xcompiler', nanodbcPath + '\\nanodbc\\nanodbc.cpp',
     '-Xcompiler', nanodbcJavaPath + '\\nanodbc_java.cpp',
     '-Xcompiler', 'odbc32.lib',
     '-Xcompiler', 'odbccp32.lib',

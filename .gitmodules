@@ -1,3 +1,4 @@
 [submodule "nanodbc"]
 	path = nanodbc
-	url = https://github.com/lexicalunit/nanodbc.git
+	url = https://github.com/nanodbc/nanodbc.git
+	branch = master

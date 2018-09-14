@@ -81,8 +81,8 @@ class NativeStatement extends Pointer implements Statement {
         bind(column, bytePointer);
     }
 
-    @Name("bind<::nanodbc::string_type::value_type>")
-    private native void bind(short column, @Cast("::nanodbc::string_type::value_type*") BytePointer bytePointer);
+    @Name("bind<::nanodbc::string::value_type>")
+    private native void bind(short column, @Cast("::nanodbc::string::value_type*") BytePointer bytePointer);
 
     @Override
     public void bind(short column, LocalDate date) {
