@@ -1,5 +1,5 @@
 # nanodbc-java
-A Java ODBC wrapper backed by nanodbc
+A Java ODBC wrapper backed by [nanodbc](http://nanodbc.io/)
 
 [![Build status](https://ci.appveyor.com/api/projects/status/yxifj94ckn2dorr4?svg=true)](https://ci.appveyor.com/project/rafeememon/nanodbc-java)
 
