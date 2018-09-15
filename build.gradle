@@ -3,7 +3,10 @@ plugins {
   id 'eclipse'
   id 'maven-publish'
   id 'com.palantir.git-version' version '0.10.1'
+  id 'com.cisco.external-build' version '1.14'
 }
+
+import com.cisco.gradle.externalbuild.tasks.CMake
 
 apply from: 'gradle/s3.gradle'
 
@@ -45,8 +48,16 @@ def nanodbcPath = rootDir.toString() + '\\nanodbc'
 def nanodbcJavaPath = rootDir.toString() + '\\src\\main\\cpp'
 def nanodbcJavaOutputs = sourceSets.main.output.getFiles()
 
+task cmakeNanodbc(type: CMake) {
+  workingDir nanodbcPath
+  cmakeRoot nanodbcPath
+  cmakeArgs '-DNANODBC_DISABLE_ASYNC=ON'
+  targets 'nanodbc'
+  redirectOutput = false
+}
+
 task compileJavacpp(type: JavaExec) {
-  dependsOn compileJava, processResources
+  dependsOn compileJava, processResources, cmakeNanodbc
 
   classpath = configurations.javacpp
   main = 'org.bytedeco.javacpp.tools.Builder'

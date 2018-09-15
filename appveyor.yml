@@ -26,6 +26,7 @@ before_build:
   - echo "Using Visual Studio %VSVER%.0 at %VSCOMNTOOLS%"
   - call "%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat" %VCVARS_PLATFORM%
   - git submodule update --init
+  - choco install make
 
 build_script:
   - gradlew.bat --info build
@@ -39,3 +40,6 @@ deploy_script:
 
 cache:
   - C:\Users\appveyor\.gradle
+
+on_finish:
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
