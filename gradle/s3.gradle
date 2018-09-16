@@ -16,7 +16,7 @@ def fetchAwsCredentials = {
   try {
     return DefaultAWSCredentialsProviderChain.getInstance().credentials
   } catch (Exception e) {
-    logger.warn('Unable to retrieve AWS credentials', e)
+    logger.warn('Unable to retrieve AWS credentials')
     return null
   }
 }
