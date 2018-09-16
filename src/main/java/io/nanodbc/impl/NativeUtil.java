@@ -1,4 +1,4 @@
-package com.lexicalunit.nanodbc.impl;
+package io.nanodbc.impl;
 
 import org.bytedeco.javacpp.Loader;
 import org.bytedeco.javacpp.annotation.ByRef;

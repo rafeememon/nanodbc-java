@@ -1,4 +1,4 @@
-package com.lexicalunit.nanodbc;
+package io.nanodbc;
 
 import java.sql.JDBCType;
 import java.time.LocalDate;

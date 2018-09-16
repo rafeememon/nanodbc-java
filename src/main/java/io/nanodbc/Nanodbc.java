@@ -1,6 +1,6 @@
-package com.lexicalunit.nanodbc;
+package io.nanodbc;
 
-import com.lexicalunit.nanodbc.impl.NativeConnection;
+import io.nanodbc.impl.NativeConnection;
 
 public class Nanodbc {
 

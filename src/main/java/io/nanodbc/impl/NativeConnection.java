@@ -1,4 +1,4 @@
-package com.lexicalunit.nanodbc.impl;
+package io.nanodbc.impl;
 
 import org.bytedeco.javacpp.Loader;
 import org.bytedeco.javacpp.Pointer;
@@ -6,7 +6,7 @@ import org.bytedeco.javacpp.annotation.Name;
 import org.bytedeco.javacpp.annotation.Namespace;
 import org.bytedeco.javacpp.annotation.Platform;
 
-import com.lexicalunit.nanodbc.Connection;
+import io.nanodbc.Connection;
 
 @Platform(include = "nanodbc_ext.h")
 @Namespace("nanodbc")

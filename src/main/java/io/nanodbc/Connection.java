@@ -1,4 +1,4 @@
-package com.lexicalunit.nanodbc;
+package io.nanodbc;
 
 public interface Connection extends AutoCloseable {
 
