@@ -37,6 +37,10 @@ public class NativeResult extends Pointer implements Result {
     public native short getNumColumns();
 
     @Override
+    @Name("affected_rows")
+    public native long getAffectedRows();
+
+    @Override
     @Name("column_name")
     public native @StdString String getColumnName(short column);
 

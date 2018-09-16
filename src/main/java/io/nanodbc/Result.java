@@ -11,6 +11,8 @@ public interface Result extends AutoCloseable {
 
     short getNumColumns();
 
+    long getAffectedRows();
+
     String getColumnName(short column);
 
     JDBCType getColumnType(short column);
