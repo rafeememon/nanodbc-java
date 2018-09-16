@@ -1,4 +1,4 @@
-package com.lexicalunit.nanodbc.impl;
+package io.nanodbc.impl;
 
 import java.sql.JDBCType;
 import java.time.LocalDate;
@@ -13,7 +13,7 @@ import org.bytedeco.javacpp.annotation.Namespace;
 import org.bytedeco.javacpp.annotation.Platform;
 import org.bytedeco.javacpp.annotation.StdString;
 
-import com.lexicalunit.nanodbc.Result;
+import io.nanodbc.Result;
 
 @Platform(include = "nanodbc_ext.h")
 @Namespace("nanodbc")

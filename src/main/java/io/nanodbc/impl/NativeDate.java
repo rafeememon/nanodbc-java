@@ -1,4 +1,4 @@
-package com.lexicalunit.nanodbc.impl;
+package io.nanodbc.impl;
 
 import java.time.LocalDate;
 
