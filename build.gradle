@@ -71,6 +71,7 @@ task processJavacpp(type: JavaExec) {
   main = 'org.bytedeco.javacpp.tools.Builder'
   args = [
     '-cp', nanodbcJavaOutputs.join(File.pathSeparator),
+    '-o', 'jninanodbc',
     '-Xcompiler', "${nanodbcPath}\\Release\\nanodbc.lib",
     '-Xcompiler', "${nanodbcExtPath}\\Release\\nanodbc_ext.lib",
     '-Xcompiler', 'odbc32.lib',
