@@ -1,4 +1,4 @@
-#include "nanodbc_java.h"
+#include "nanodbc_ext.h"
 
 namespace nanodbc
 {
