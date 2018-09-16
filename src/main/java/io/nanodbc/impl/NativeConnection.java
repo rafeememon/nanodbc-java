@@ -8,7 +8,7 @@ import org.bytedeco.javacpp.annotation.Platform;
 
 import io.nanodbc.Connection;
 
-@Platform(include = "nanodbc_ext.h")
+@Platform(include = "nanodbc_ext.h", library = "jninanodbc")
 @Namespace("nanodbc")
 @Name("connection")
 public class NativeConnection extends Pointer implements Connection {

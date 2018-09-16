@@ -15,7 +15,7 @@ import org.bytedeco.javacpp.annotation.StdString;
 
 import io.nanodbc.Result;
 
-@Platform(include = "nanodbc_ext.h")
+@Platform(include = "nanodbc_ext.h", library = "jninanodbc")
 @Namespace("nanodbc")
 @Name("result")
 public class NativeResult extends Pointer implements Result {
