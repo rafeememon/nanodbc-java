@@ -5,4 +5,4 @@ A Java ODBC wrapper backed by [nanodbc](http://nanodbc.io/)
 
 Requirements:
 
-* [Visual C++ Redistributable for Visual Studio 2015](https://www.microsoft.com/en-us/download/details.aspx?id=48145)
+* [Visual C++ Redistributable for Visual Studio 2017](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads)
