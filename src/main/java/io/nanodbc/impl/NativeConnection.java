@@ -20,6 +20,10 @@ public class NativeConnection extends Pointer implements Connection {
         allocate();
     }
 
+    public NativeConnection(String connectionString) {
+        allocate(connectionString);
+    }
+
     public NativeConnection(String connectionString, long timeout) {
         allocate(connectionString, timeout);
     }
@@ -30,9 +34,14 @@ public class NativeConnection extends Pointer implements Connection {
 
     private native void allocate();
 
+    private native void allocate(String connectionString);
+
     private native void allocate(String connectionString, long timeout);
 
     private native void allocate(String dsn, String user, String pass, long timeout);
+
+    @Override
+    public native void connect(String connectionString);
 
     @Override
     public native void connect(String connectionString, long timeout);
@@ -47,10 +56,22 @@ public class NativeConnection extends Pointer implements Connection {
     public native void disconnect();
 
     @Override
+    public NativeResult execute(String query) {
+        NativeResult result = new NativeResult();
+        NativeExt.execute(result, this, query);
+        return result;
+    }
+
+    @Override
     public NativeResult execute(String query, long timeout) {
         NativeResult result = new NativeResult();
         NativeExt.execute(result, this, query, timeout);
         return result;
+    }
+
+    @Override
+    public NativeStatement prepare(String query) {
+        return NativeStatement.create(this, query);
     }
 
     @Override

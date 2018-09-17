@@ -8,6 +8,10 @@ public class Nanodbc {
         return new NativeConnection();
     }
 
+    public static Connection newConnection(String connectionString) {
+        return new NativeConnection(connectionString);
+    }
+
     public static Connection newConnection(String connectionString, long timeout) {
         return new NativeConnection(connectionString, timeout);
     }
