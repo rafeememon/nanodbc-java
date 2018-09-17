@@ -7,14 +7,13 @@ import org.bytedeco.javacpp.annotation.Platform;
 
 @Platform(include = "nanodbc_ext.h", library = "jninanodbc")
 @Namespace("nanodbc")
-class NativeUtil {
+class NativeExt {
     static {
         Loader.load();
     }
 
-    static native void execute(@ByRef NativeResult result, @ByRef NativeConnection conn, String query,
-            long batchOperations, long timeout);
+    static native void execute(@ByRef NativeResult result, @ByRef NativeConnection conn, String query, long timeout);
 
-    static native void execute(@ByRef NativeResult result, @ByRef NativeStatement statement, long batchOperations);
+    static native void execute(@ByRef NativeResult result, @ByRef NativeStatement statement);
 
 }

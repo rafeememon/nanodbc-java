@@ -10,7 +10,7 @@ public interface Connection extends AutoCloseable {
 
     void disconnect();
 
-    Result execute(String query, long batchOperations, long timeout);
+    Result execute(String query, long timeout);
 
     Statement prepare(String query, long timeout);
 

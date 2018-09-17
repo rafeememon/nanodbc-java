@@ -22,7 +22,7 @@ public interface Statement extends AutoCloseable {
 
     void bindNull(short column);
 
-    Result execute(long batchOperations);
+    Result execute();
 
     @Override
     void close();
