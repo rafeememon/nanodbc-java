@@ -119,9 +119,9 @@ class NativeStatement extends Pointer implements Statement {
     public native void bindNull(short column);
 
     @Override
-    public NativeResult execute(long batchOperations) {
+    public NativeResult execute() {
         NativeResult result = new NativeResult();
-        NativeUtil.execute(result, this, batchOperations);
+        NativeExt.execute(result, this);
         return result;
     }
 

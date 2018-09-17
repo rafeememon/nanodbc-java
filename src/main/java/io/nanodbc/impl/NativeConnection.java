@@ -47,9 +47,9 @@ public class NativeConnection extends Pointer implements Connection {
     public native void disconnect();
 
     @Override
-    public NativeResult execute(String query, long batchOperations, long timeout) {
+    public NativeResult execute(String query, long timeout) {
         NativeResult result = new NativeResult();
-        NativeUtil.execute(result, this, query, batchOperations, timeout);
+        NativeExt.execute(result, this, query, timeout);
         return result;
     }
 

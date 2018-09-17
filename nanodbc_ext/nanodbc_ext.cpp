@@ -3,14 +3,14 @@
 namespace nanodbc
 {
 
-void execute(result& result, connection& conn, const string& query, long batch_operations, long timeout)
+void execute(result& result, connection& conn, const string& query, long timeout)
 {
-    result = execute(conn, query, batch_operations, timeout);
+    result = execute(conn, query, 1, timeout);
 }
 
-void execute(result& result, statement& stmt, long batch_operations)
+void execute(result& result, statement& stmt)
 {
-    result = execute(stmt, batch_operations);
+    result = execute(stmt);
 }
 
 }
