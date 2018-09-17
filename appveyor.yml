@@ -10,7 +10,7 @@ platform:
   - x86
   # - x64
 
-before_build:
+install:
   - ps: >-
       If ($env:Platform -Match "x86") {
         $env:JAVA_HOME="c:/Program Files (x86)/Java/jdk1.8.0"
