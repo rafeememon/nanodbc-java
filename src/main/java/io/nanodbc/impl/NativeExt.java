@@ -12,6 +12,8 @@ class NativeExt {
         Loader.load();
     }
 
+    static native void execute(@ByRef NativeResult result, @ByRef NativeConnection conn, String query);
+
     static native void execute(@ByRef NativeResult result, @ByRef NativeConnection conn, String query, long timeout);
 
     static native void execute(@ByRef NativeResult result, @ByRef NativeStatement statement);

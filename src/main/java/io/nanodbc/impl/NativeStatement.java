@@ -30,14 +30,25 @@ class NativeStatement extends Pointer implements Statement {
 
     private final List<Pointer> parameterPointers;
 
-    public static NativeStatement create(NativeConnection connection, String query, long timeout) {
+    static NativeStatement create(NativeConnection connection, String query) {
+        return new NativeStatement(connection, query, new ArrayList<>());
+    }
+
+    static NativeStatement create(NativeConnection connection, String query, long timeout) {
         return new NativeStatement(connection, query, timeout, new ArrayList<>());
     }
 
-    NativeStatement(NativeConnection connection, String query, long timeout, List<Pointer> parameterPointers) {
+    private NativeStatement(NativeConnection connection, String query, List<Pointer> parameterPointers) {
+        allocate(connection, query);
+        this.parameterPointers = parameterPointers;
+    }
+
+    private NativeStatement(NativeConnection connection, String query, long timeout, List<Pointer> parameterPointers) {
         allocate(connection, query, timeout);
         this.parameterPointers = parameterPointers;
     }
+
+    private native void allocate(@ByRef NativeConnection connection, String query);
 
     private native void allocate(@ByRef NativeConnection connection, String query, long timeout);
 
