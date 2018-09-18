@@ -7,7 +7,7 @@ plugins {
 
 apply from: 'gradle/s3.gradle'
 
-group = 'com.nanodbc'
+group = 'io.nanodbc'
 version = gitVersion()
 
 sourceCompatibility = '1.8'
