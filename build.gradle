@@ -7,7 +7,7 @@ plugins {
 
 apply from: 'gradle/s3.gradle'
 
-group = 'com.nanodbc'
+group = 'io.nanodbc'
 version = gitVersion()
 
 sourceCompatibility = '1.8'
@@ -46,38 +46,46 @@ publishing {
   }
 }
 
-def nanodbcPath = "${rootDir.toString()}\\nanodbc"
-def nanodbcExtPath = "${rootDir.toString()}\\nanodbc_ext"
+def nanodbcSrcPath = "${rootDir.toString()}\\nanodbc"
+def nanodbcExtSrcPath = "${rootDir.toString()}\\nanodbc_ext"
+def nanodbcBuildPath = "${rootDir.toString()}\\builddir"
+def nanodbcLibPath = "${nanodbcBuildPath}\\nanodbc\\Release"
+def nanodbcExtLibPath = "${nanodbcBuildPath}\\nanodbc_ext\\Release"
 def nanodbcJavaOutputs = sourceSets.main.output.getFiles()
 
-task cmakeNanodbc(type: Exec) {
-  commandLine 'cmake', '.'
-}
-
 task buildNanodbc(type: Exec) {
-  dependsOn cmakeNanodbc
+  inputs.file "${rootDir.toString()}\\CMakeLists.txt"
+  inputs.dir nanodbcSrcPath
+  inputs.dir nanodbcExtSrcPath
+  outputs.dir nanodbcBuildPath
 
-  commandLine 'msbuild'
-  args = [
-    'ALL_BUILD.vcxproj',
-    '/p:Configuration=Release'
-  ]
+  doFirst {
+    exec {
+      workingDir nanodbcBuildPath
+      commandLine 'cmake', rootDir.toString()
+    }
+  }
+
+  workingDir nanodbcBuildPath
+  commandLine 'msbuild', 'ALL_BUILD.vcxproj', '/p:Configuration=Release'
 }
 
 task processJavacpp(type: JavaExec) {
   dependsOn compileJava, processResources, buildNanodbc
+
+  // TODO: Set inputs and outputs
 
   classpath = configurations.javacpp
   main = 'org.bytedeco.javacpp.tools.Builder'
   args = [
     '-cp', nanodbcJavaOutputs.join(File.pathSeparator),
     '-o', 'jninanodbc',
-    '-Xcompiler', "${nanodbcPath}\\Release\\nanodbc.lib",
-    '-Xcompiler', "${nanodbcExtPath}\\Release\\nanodbc_ext.lib",
+    '-Xcompiler', "${nanodbcLibPath}\\nanodbc.lib",
+    '-Xcompiler', "${nanodbcExtLibPath}\\nanodbc_ext.lib",
     '-Xcompiler', 'odbc32.lib',
     '-Xcompiler', 'odbccp32.lib',
-    '-Xcompiler', "/I${nanodbcPath}",
-    '-Xcompiler', "/I${nanodbcExtPath}"
+    '-Xcompiler', "/I${nanodbcSrcPath}",
+    '-Xcompiler', "/I${nanodbcExtSrcPath}"
   ]
 }
 
