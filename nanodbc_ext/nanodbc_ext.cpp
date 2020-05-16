@@ -13,4 +13,9 @@ void execute(result& result, statement& stmt)
     result = execute(stmt);
 }
 
+void just_execute2(connection& conn, const string& query, long timeout)
+{
+    just_execute(conn, query, 1, timeout);
+}
+
 }

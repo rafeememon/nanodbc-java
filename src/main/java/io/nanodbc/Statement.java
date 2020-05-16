@@ -24,6 +24,8 @@ public interface Statement extends AutoCloseable {
 
     Result execute();
 
+    void justExecute();
+
     @Override
     void close();
 

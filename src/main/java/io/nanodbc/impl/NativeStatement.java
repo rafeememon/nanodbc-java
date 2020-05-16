@@ -137,6 +137,11 @@ class NativeStatement extends Pointer implements Statement {
     }
 
     @Override
+    public void justExecute() {
+        NativeExt.justExecute(this);
+    }
+
+    @Override
     public void close() {
         for (Pointer parameterPointer : parameterPointers) {
             parameterPointer.close();
