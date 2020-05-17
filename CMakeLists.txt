@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.0.0)
+project(nanodbc_java CXX)
 
 # http://edsiper.linuxchile.cl/blog/2016/01/08/cmake-override-subdirectory-options/
 macro(set_option option value)

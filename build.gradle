@@ -46,32 +46,36 @@ publishing {
   }
 }
 
-def nanodbcSrcPath = "${rootDir.toString()}\\nanodbc"
-def nanodbcExtSrcPath = "${rootDir.toString()}\\nanodbc_ext"
-def nanodbcBuildPath = "${rootDir.toString()}\\builddir"
-def nanodbcLibPath = "${nanodbcBuildPath}\\nanodbc\\Release"
-def nanodbcExtLibPath = "${nanodbcBuildPath}\\nanodbc_ext\\Release"
+def nanodbcSrcPath = "${rootDir}\\nanodbc"
+def nanodbcExtSrcPath = "${rootDir}\\nanodbc_ext"
+def nanodbcCmakePath = "${buildDir}\\cmake"
+def nanodbcMsbuildPath = "${buildDir}\\msbuild"
 def nanodbcJavaOutputs = sourceSets.main.output.getFiles()
 
-task buildNanodbc(type: Exec) {
-  inputs.file "${rootDir.toString()}\\CMakeLists.txt"
+task cmakeNanodbc(type: Exec) {
+  inputs.file "${rootDir}\\CMakeLists.txt"
+  inputs.file "${nanodbcSrcPath}\\CMakeLists.txt"
+  inputs.file "${nanodbcExtSrcPath}\\CMakeLists.txt"
+  outputs.dir nanodbcCmakePath
+
+  workingDir nanodbcCmakePath
+  commandLine 'cmake', "${rootDir}"
+}
+
+task msbuildNanodbc(type: Exec) {
+  dependsOn cmakeNanodbc
+
   inputs.dir nanodbcSrcPath
   inputs.dir nanodbcExtSrcPath
-  outputs.dir nanodbcBuildPath
+  inputs.dir nanodbcCmakePath
+  outputs.dir nanodbcMsbuildPath
 
-  doFirst {
-    exec {
-      workingDir nanodbcBuildPath
-      commandLine 'cmake', rootDir.toString()
-    }
-  }
-
-  workingDir nanodbcBuildPath
-  commandLine 'msbuild', 'ALL_BUILD.vcxproj', '/p:Configuration=Release'
+  workingDir nanodbcCmakePath
+  commandLine 'msbuild', 'ALL_BUILD.vcxproj', "/p:OutDir=${nanodbcMsbuildPath};Configuration=Release"
 }
 
 task processJavacpp(type: JavaExec) {
-  dependsOn compileJava, processResources, buildNanodbc
+  dependsOn compileJava, processResources, msbuildNanodbc
 
   // TODO: Set inputs and outputs
 
@@ -80,8 +84,8 @@ task processJavacpp(type: JavaExec) {
   args = [
     '-cp', nanodbcJavaOutputs.join(File.pathSeparator),
     '-o', 'jninanodbc',
-    '-Xcompiler', "${nanodbcLibPath}\\nanodbc.lib",
-    '-Xcompiler', "${nanodbcExtLibPath}\\nanodbc_ext.lib",
+    '-Xcompiler', "${nanodbcMsbuildPath}\\nanodbc.lib",
+    '-Xcompiler', "${nanodbcMsbuildPath}\\nanodbc_ext.lib",
     '-Xcompiler', 'odbc32.lib',
     '-Xcompiler', 'odbccp32.lib',
     '-Xcompiler', "/I${nanodbcSrcPath}",
