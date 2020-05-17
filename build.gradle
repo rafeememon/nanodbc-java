@@ -26,22 +26,19 @@ dependencies {
   implementation group: 'org.bytedeco', name: 'javacpp', version: javacppVersion
 }
 
+java {
+  withSourcesJar()
+}
+
 jar {
   // Don't include unnecessary compiler outputs.
   exclude '**/*.exp', '**/*.lib', '**/*.obj'
 }
 
-task sourceJar(type: Jar) {
-  classifier 'sources'
-  from sourceSets.main.allJava
-}
-
 publishing {
   publications {
-    mavenJava(MavenPublication) {
+    library(MavenPublication) {
       from components.java
-
-      artifact sourceJar
     }
   }
 }
