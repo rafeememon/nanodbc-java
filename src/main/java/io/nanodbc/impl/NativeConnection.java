@@ -70,6 +70,16 @@ public class NativeConnection extends Pointer implements Connection {
     }
 
     @Override
+    public void justExecute(String query) {
+        NativeExt.justExecute(this, query);
+    }
+
+    @Override
+    public void justExecute(String query, long timeout) {
+        NativeExt.justExecute(this, query, timeout);
+    }
+
+    @Override
     public NativeStatement prepare(String query) {
         return NativeStatement.create(this, query);
     }

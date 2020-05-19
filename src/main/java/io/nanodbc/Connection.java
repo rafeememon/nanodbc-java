@@ -16,6 +16,10 @@ public interface Connection extends AutoCloseable {
 
     Result execute(String query, long timeout);
 
+    void justExecute(String query);
+
+    void justExecute(String query, long timeout);
+
     Statement prepare(String query);
 
     Statement prepare(String query, long timeout);
