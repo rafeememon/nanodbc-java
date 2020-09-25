@@ -7,6 +7,7 @@ import org.bytedeco.javacpp.annotation.Namespace;
 import org.bytedeco.javacpp.annotation.Platform;
 
 import io.nanodbc.Connection;
+import io.nanodbc.Transaction;
 
 @Platform(include = "nanodbc_ext.h", library = "jninanodbc")
 @Namespace("nanodbc")
@@ -87,6 +88,11 @@ public class NativeConnection extends Pointer implements Connection {
     @Override
     public NativeStatement prepare(String query, long timeout) {
         return new NativeStatement(this, query, timeout);
+    }
+
+    @Override
+    public Transaction beginTransaction() {
+        return new NativeTransaction(this);
     }
 
 }
