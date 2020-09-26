@@ -28,24 +28,14 @@ class NativeStatement extends Pointer implements Statement {
         Loader.load();
     }
 
-    private final List<Pointer> parameterPointers;
+    private final List<Pointer> parameterPointers = new ArrayList<>();
 
-    static NativeStatement create(NativeConnection connection, String query) {
-        return new NativeStatement(connection, query, new ArrayList<>());
-    }
-
-    static NativeStatement create(NativeConnection connection, String query, long timeout) {
-        return new NativeStatement(connection, query, timeout, new ArrayList<>());
-    }
-
-    private NativeStatement(NativeConnection connection, String query, List<Pointer> parameterPointers) {
+    public NativeStatement(NativeConnection connection, String query) {
         allocate(connection, query);
-        this.parameterPointers = parameterPointers;
     }
 
-    private NativeStatement(NativeConnection connection, String query, long timeout, List<Pointer> parameterPointers) {
+    public NativeStatement(NativeConnection connection, String query, long timeout) {
         allocate(connection, query, timeout);
-        this.parameterPointers = parameterPointers;
     }
 
     private native void allocate(@ByRef NativeConnection connection, String query);

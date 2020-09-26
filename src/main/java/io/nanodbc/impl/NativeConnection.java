@@ -81,12 +81,12 @@ public class NativeConnection extends Pointer implements Connection {
 
     @Override
     public NativeStatement prepare(String query) {
-        return NativeStatement.create(this, query);
+        return new NativeStatement(this, query);
     }
 
     @Override
     public NativeStatement prepare(String query, long timeout) {
-        return NativeStatement.create(this, query, timeout);
+        return new NativeStatement(this, query, timeout);
     }
 
 }
