@@ -24,6 +24,8 @@ public interface Connection extends AutoCloseable {
 
     Statement prepare(String query, long timeout);
 
+    Transaction beginTransaction();
+
     @Override
     void close();
 
