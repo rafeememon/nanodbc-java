@@ -11,6 +11,7 @@ import org.bytedeco.javacpp.DoublePointer;
 import org.bytedeco.javacpp.FloatPointer;
 import org.bytedeco.javacpp.IntPointer;
 import org.bytedeco.javacpp.Loader;
+import org.bytedeco.javacpp.LongPointer;
 import org.bytedeco.javacpp.Pointer;
 import org.bytedeco.javacpp.annotation.ByRef;
 import org.bytedeco.javacpp.annotation.Cast;
@@ -52,6 +53,17 @@ class NativeStatement extends Pointer implements Statement {
 
     @Name("bind<int32_t>")
     private native void bind(short column, IntPointer intPointer);
+
+    @Override
+    public void bind(short column, long value) {
+        LongPointer longPointer = new LongPointer(1L);
+        longPointer.put(value);
+        parameterPointers.add(longPointer);
+        bind(column, longPointer);
+    }
+
+    @Name("bind<long>")
+    private native void bind(short column, @Cast("long*") LongPointer floatPointer);
 
     @Override
     public void bind(short column, float value) {

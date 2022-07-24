@@ -8,6 +8,8 @@ public interface Statement extends AutoCloseable {
 
     void bind(short column, int value);
 
+    void bind(short column, long value);
+
     void bind(short column, float value);
 
     void bind(short column, double value);

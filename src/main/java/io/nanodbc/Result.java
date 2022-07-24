@@ -27,6 +27,10 @@ public interface Result extends AutoCloseable {
 
     int getInt(String columnName);
 
+    long getLong(short column);
+
+    long getLong(String columnName);
+
     float getFloat(short column);
 
     float getFloat(String columnName);
