@@ -9,12 +9,14 @@ buildscript {
 
 plugins {
   id 'com.palantir.git-version' version '0.12.3'
+  // id 'com.diffplug.spotless' version '6.1.0'
   id 'java-library'
   id 'eclipse'
   id 'maven-publish'
 }
 
-apply from: 'gradle/s3.gradle'
+apply from: "${rootDir}/gradle/s3.gradle"
+// apply from: "${rootDir}/gradle/spotless.gradle"
 
 group = 'io.nanodbc'
 version = gitVersion()
