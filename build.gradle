@@ -26,6 +26,10 @@ repositories {
   mavenCentral()
 }
 
+dependencyLocking {
+  lockAllConfigurations()
+}
+
 configurations {
   javacpp
 }
