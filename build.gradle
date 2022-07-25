@@ -1,8 +1,17 @@
+// https://community.sonarsource.com/t/error-locking-filebasedconfig-root-config-jgit-config-failed-after-5-retries
+buildscript {
+  configurations.classpath {
+    resolutionStrategy {
+      force 'org.eclipse.jgit:org.eclipse.jgit:5.13.0.202109080827-r'
+    }
+  }
+}
+
 plugins {
+  id 'com.palantir.git-version' version '0.12.3'
   id 'java-library'
   id 'eclipse'
   id 'maven-publish'
-  id 'com.palantir.git-version' version '0.10.1'
 }
 
 apply from: 'gradle/s3.gradle'
