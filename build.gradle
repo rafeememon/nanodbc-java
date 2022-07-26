@@ -10,11 +10,13 @@ buildscript {
 plugins {
   id 'com.palantir.git-version' version '0.12.3'
   // id 'com.diffplug.spotless' version '6.1.0'
+  id 'com.diffplug.oomph.ide' version '3.34.0'
   id 'java-library'
   id 'eclipse'
   id 'maven-publish'
 }
 
+apply from: "${rootDir}/gradle/goomph.gradle"
 apply from: "${rootDir}/gradle/s3.gradle"
 // apply from: "${rootDir}/gradle/spotless.gradle"
 
