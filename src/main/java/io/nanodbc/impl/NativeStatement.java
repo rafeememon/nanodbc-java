@@ -62,8 +62,8 @@ class NativeStatement extends Pointer implements Statement {
         bind(column, longPointer);
     }
 
-    @Name("bind<long>")
-    private native void bind(short column, @Cast("long*") LongPointer floatPointer);
+    @Name("bind<long long>")
+    private native void bind(short column, LongPointer longPointer);
 
     @Override
     public void bind(short column, float value) {

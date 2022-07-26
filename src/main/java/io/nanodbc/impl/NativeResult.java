@@ -77,11 +77,11 @@ public class NativeResult extends Pointer implements Result {
     public native int getInt(String columnName);
 
     @Override
-    @Name("get<long>")
+    @Name("get<long long>")
     public native long getLong(short column);
 
     @Override
-    @Name("get<long>")
+    @Name("get<long long>")
     public native long getLong(String columnName);
 
     @Override
