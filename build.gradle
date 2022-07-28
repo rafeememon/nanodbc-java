@@ -60,11 +60,15 @@ publishing {
   }
 }
 
+// C++ and native compilation
+
 def nanodbcSrcPath = "${rootDir}\\nanodbc"
 def nanodbcExtSrcPath = "${rootDir}\\nanodbc_ext"
 def nanodbcCmakePath = "${buildDir}\\cmake"
 def nanodbcMsbuildPath = "${buildDir}\\msbuild"
 def nanodbcJavaOutputs = sourceSets.main.output.getFiles()
+
+def cmakeArch = System.getenv('Platform') == 'x64' ? 'x64' : 'Win32'
 
 task cmakeNanodbc(type: Exec) {
   inputs.file "${rootDir}\\CMakeLists.txt"
@@ -73,7 +77,7 @@ task cmakeNanodbc(type: Exec) {
   outputs.dir nanodbcCmakePath
 
   workingDir nanodbcCmakePath
-  commandLine 'cmake', "${rootDir}"
+  commandLine 'cmake', rootDir, '-A', cmakeArch
 }
 
 task msbuildNanodbc(type: Exec) {
