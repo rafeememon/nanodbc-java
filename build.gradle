@@ -8,9 +8,9 @@ buildscript {
 }
 
 plugins {
-  id 'com.palantir.git-version' version '0.12.3'
-  // id 'com.diffplug.spotless' version '6.1.0'
-  id 'com.diffplug.oomph.ide' version '3.34.0'
+  id 'com.palantir.git-version' version "${gitVersionVersion}"
+  // id 'com.diffplug.spotless' version "${spotlessVersion}"
+  id 'com.diffplug.oomph.ide' version "${oomphIdeVersion}"
   id 'java-library'
   id 'eclipse'
   id 'maven-publish'
