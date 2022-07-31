@@ -3,6 +3,9 @@ package io.nanodbc;
 import io.nanodbc.impl.NativeConnection;
 
 public class Nanodbc {
+    static {
+        Platform.checkPlatform();
+    }
 
     public static Connection newConnection() {
         return new NativeConnection();

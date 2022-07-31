@@ -47,24 +47,12 @@ java {
   withSourcesJar()
 }
 
-jar {
-  // Don't include unnecessary compiler outputs.
-  exclude '**/*.exp', '**/*.lib', '**/*.obj'
-}
-
-publishing {
-  publications {
-    library(MavenPublication) {
-      from components.java
-    }
-  }
-}
-
 def nanodbcSrcPath = "${rootDir}\\nanodbc"
 def nanodbcExtSrcPath = "${rootDir}\\nanodbc_ext"
 def nanodbcCmakePath = "${buildDir}\\cmake"
 def nanodbcMsbuildPath = "${buildDir}\\msbuild"
 def nanodbcJavacppPath = "${buildDir}\\javacpp"
+def nanodbcJavacppPlatformPath = "${buildDir}\\NANODBC_PLATFORM.txt"
 
 task cmakeNanodbc(type: Exec) {
   inputs.file "${rootDir}\\CMakeLists.txt"
@@ -112,8 +100,6 @@ task compileJavacpp(type: JavaExec) {
   ]
 }
 
-classes.dependsOn compileJavacpp
-
 // https://docs.gradle.org/current/dsl/org.gradle.api.tasks.Exec.html
 // https://stackoverflow.com/a/33898685
 task javacppPlatform(type: JavaExec) {
@@ -122,4 +108,28 @@ task javacppPlatform(type: JavaExec) {
   args = ['-print', 'platform']
   standardOutput = new ByteArrayOutputStream()
   ext.platform = { standardOutput.toString().trim() }
+}
+
+task writeJavacppPlatform {
+  dependsOn javacppPlatform
+  doLast {
+    file(nanodbcJavacppPlatformPath).text = javacppPlatform.platform()
+  }
+}
+
+classes.dependsOn compileJavacpp, writeJavacppPlatform
+
+jar {
+  from(nanodbcJavacppPath) {
+    include '*.dll'
+  }
+  from nanodbcJavacppPlatformPath
+}
+
+publishing {
+  publications {
+    library(MavenPublication) {
+      from components.java
+    }
+  }
 }
