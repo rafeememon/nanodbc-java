@@ -64,6 +64,7 @@ def nanodbcSrcPath = "${rootDir}\\nanodbc"
 def nanodbcExtSrcPath = "${rootDir}\\nanodbc_ext"
 def nanodbcCmakePath = "${buildDir}\\cmake"
 def nanodbcMsbuildPath = "${buildDir}\\msbuild"
+def nanodbcJavacppPath = "${buildDir}\\javacpp"
 
 task cmakeNanodbc(type: Exec) {
   inputs.file "${rootDir}\\CMakeLists.txt"
@@ -90,7 +91,10 @@ task msbuildNanodbc(type: Exec) {
 task compileJavacpp(type: JavaExec) {
   dependsOn compileJava, msbuildNanodbc
 
-  // TODO: Set inputs and outputs
+  inputs.dir nanodbcMsbuildPath
+  inputs.dir nanodbcSrcPath
+  inputs.dir nanodbcExtSrcPath
+  outputs.dir nanodbcJavacppPath
 
   workingDir = tasks.compileJava.destinationDir
   classpath = configurations.javacpp
@@ -98,6 +102,7 @@ task compileJavacpp(type: JavaExec) {
   args = [
     'io.nanodbc.impl.*',
     '-o', 'jninanodbc',
+    '-d', "${nanodbcJavacppPath}",
     '-Xcompiler', "${nanodbcMsbuildPath}\\nanodbc.lib",
     '-Xcompiler', "${nanodbcMsbuildPath}\\nanodbc_ext.lib",
     '-Xcompiler', 'odbc32.lib',
@@ -108,3 +113,13 @@ task compileJavacpp(type: JavaExec) {
 }
 
 classes.dependsOn compileJavacpp
+
+// https://docs.gradle.org/current/dsl/org.gradle.api.tasks.Exec.html
+// https://stackoverflow.com/a/33898685
+task javacppPlatform(type: JavaExec) {
+  classpath = configurations.javacpp
+  mainClass = 'org.bytedeco.javacpp.tools.Builder'
+  args = ['-print', 'platform']
+  standardOutput = new ByteArrayOutputStream()
+  ext.platform = { standardOutput.toString().trim() }
+}
