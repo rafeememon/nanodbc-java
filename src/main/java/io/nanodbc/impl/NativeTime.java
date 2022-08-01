@@ -53,11 +53,17 @@ public class NativeTime extends Pointer {
     }
 
     public static NativeTime fromLocalTime(LocalTime localTime) {
-        NativeTime time = new NativeTime();
-        time.setHour(localTime.getHour());
-        time.setMinute(localTime.getMinute());
-        time.setSecond(localTime.getSecond());
-        return time;
+        NativeTime time = null;
+        try {
+            time = new NativeTime();
+            time.setHour(localTime.getHour());
+            time.setMinute(localTime.getMinute());
+            time.setSecond(localTime.getSecond());
+            return time;
+        } catch (Exception e) {
+            Pointers.closeQuietly(time);
+            throw e;
+        }
     }
 
 }

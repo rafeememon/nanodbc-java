@@ -58,16 +58,28 @@ public class NativeConnection extends Pointer implements Connection {
 
     @Override
     public NativeResult execute(String query) {
-        NativeResult result = new NativeResult();
-        NativeExt.execute(result, this, query);
-        return result;
+        NativeResult result = null;
+        try {
+            result = new NativeResult();
+            NativeExt.execute(result, this, query);
+            return result;
+        } catch (Exception e) {
+            Pointers.closeQuietly(result);
+            throw e;
+        }
     }
 
     @Override
     public NativeResult execute(String query, long timeout) {
-        NativeResult result = new NativeResult();
-        NativeExt.execute(result, this, query, timeout);
-        return result;
+        NativeResult result = null;
+        try {
+            result = new NativeResult();
+            NativeExt.execute(result, this, query, timeout);
+            return result;
+        } catch (Exception e) {
+            Pointers.closeQuietly(result);
+            throw e;
+        }
     }
 
     @Override

@@ -53,11 +53,17 @@ public class NativeDate extends Pointer {
     }
 
     public static NativeDate fromLocalDate(LocalDate localDate) {
-        NativeDate date = new NativeDate();
-        date.setYear(localDate.getYear());
-        date.setMonth(localDate.getMonthValue());
-        date.setDay(localDate.getDayOfMonth());
-        return date;
+        NativeDate date = null;
+        try {
+            date = new NativeDate();
+            date.setYear(localDate.getYear());
+            date.setMonth(localDate.getMonthValue());
+            date.setDay(localDate.getDayOfMonth());
+            return date;
+        } catch (Exception e) {
+            Pointers.closeQuietly(date);
+            throw e;
+        }
     }
 
 }
