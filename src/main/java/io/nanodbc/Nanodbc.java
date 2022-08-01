@@ -20,4 +20,8 @@ public class Nanodbc {
         return new NativeConnection(dsn, user, pass, timeout);
     }
 
+    private Nanodbc() {
+        // utility class
+    }
+
 }
