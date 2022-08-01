@@ -64,7 +64,6 @@ def nanodbcSrcPath = "${rootDir}\\nanodbc"
 def nanodbcExtSrcPath = "${rootDir}\\nanodbc_ext"
 def nanodbcCmakePath = "${buildDir}\\cmake"
 def nanodbcMsbuildPath = "${buildDir}\\msbuild"
-def nanodbcJavaOutputs = sourceSets.main.output.getFiles()
 
 task cmakeNanodbc(type: Exec) {
   inputs.file "${rootDir}\\CMakeLists.txt"
@@ -88,15 +87,16 @@ task msbuildNanodbc(type: Exec) {
   commandLine 'msbuild', 'ALL_BUILD.vcxproj', "/p:OutDir=${nanodbcMsbuildPath};Configuration=Release"
 }
 
-task processJavacpp(type: JavaExec) {
-  dependsOn compileJava, processResources, msbuildNanodbc
+task compileJavacpp(type: JavaExec) {
+  dependsOn compileJava, msbuildNanodbc
 
   // TODO: Set inputs and outputs
 
+  workingDir = tasks.compileJava.destinationDir
   classpath = configurations.javacpp
-  main = 'org.bytedeco.javacpp.tools.Builder'
+  mainClass = 'org.bytedeco.javacpp.tools.Builder'
   args = [
-    '-cp', nanodbcJavaOutputs.join(File.pathSeparator),
+    'io.nanodbc.impl.*',
     '-o', 'jninanodbc',
     '-Xcompiler', "${nanodbcMsbuildPath}\\nanodbc.lib",
     '-Xcompiler', "${nanodbcMsbuildPath}\\nanodbc_ext.lib",
@@ -107,4 +107,4 @@ task processJavacpp(type: JavaExec) {
   ]
 }
 
-classes.dependsOn processJavacpp
+classes.dependsOn compileJavacpp
