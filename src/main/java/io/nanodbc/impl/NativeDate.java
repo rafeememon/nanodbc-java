@@ -13,7 +13,7 @@ import org.bytedeco.javacpp.annotation.Platform;
 @Platform(include = "nanodbc_ext.h", library = "jninanodbc")
 @Namespace("nanodbc")
 @Name("date")
-class NativeDate extends Pointer {
+public class NativeDate extends Pointer {
     static {
         Loader.load();
     }

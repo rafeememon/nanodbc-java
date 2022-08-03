@@ -24,7 +24,7 @@ import io.nanodbc.Statement;
 @Platform(include = "nanodbc_ext.h", library = "jninanodbc")
 @Namespace("nanodbc")
 @Name("statement")
-class NativeStatement extends Pointer implements Statement {
+public class NativeStatement extends Pointer implements Statement {
     static {
         Loader.load();
     }
