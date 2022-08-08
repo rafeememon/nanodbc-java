@@ -85,15 +85,21 @@ public class NativeDateTime extends Pointer {
     }
 
     public static NativeDateTime fromLocalDateTime(LocalDateTime localDateTime) {
-        NativeDateTime dateTime = new NativeDateTime();
-        dateTime.setYear(localDateTime.getYear());
-        dateTime.setMonth(localDateTime.getMonthValue());
-        dateTime.setDay(localDateTime.getDayOfMonth());
-        dateTime.setHour(localDateTime.getHour());
-        dateTime.setMinute(localDateTime.getMinute());
-        dateTime.setSecond(localDateTime.getSecond());
-        dateTime.setFract(localDateTime.getNano() / 100_000);
-        return dateTime;
+        NativeDateTime dateTime = null;
+        try {
+            dateTime = new NativeDateTime();
+            dateTime.setYear(localDateTime.getYear());
+            dateTime.setMonth(localDateTime.getMonthValue());
+            dateTime.setDay(localDateTime.getDayOfMonth());
+            dateTime.setHour(localDateTime.getHour());
+            dateTime.setMinute(localDateTime.getMinute());
+            dateTime.setSecond(localDateTime.getSecond());
+            dateTime.setFract(localDateTime.getNano() / 100_000);
+            return dateTime;
+        } catch (Exception e) {
+            Pointers.closeQuietly(dateTime);
+            throw e;
+        }
     }
 
 }

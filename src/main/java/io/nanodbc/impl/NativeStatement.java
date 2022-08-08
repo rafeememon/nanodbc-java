@@ -3,8 +3,9 @@ package io.nanodbc.impl;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.BiConsumer;
 
 import org.bytedeco.javacpp.BytePointer;
 import org.bytedeco.javacpp.DoublePointer;
@@ -29,7 +30,7 @@ public class NativeStatement extends Pointer implements Statement {
         Loader.load();
     }
 
-    private final List<Pointer> parameterPointers = new ArrayList<>();
+    private final Map<Short, Pointer> parameterPointers = new HashMap<>();
 
     public NativeStatement(NativeConnection connection, String query) {
         allocate(connection, query);
@@ -47,8 +48,7 @@ public class NativeStatement extends Pointer implements Statement {
     public void bind(short column, int value) {
         IntPointer intPointer = new IntPointer(1L);
         intPointer.put(value);
-        parameterPointers.add(intPointer);
-        bind(column, intPointer);
+        setParameterPointer(column, intPointer, this::bind);
     }
 
     @Name("bind<int32_t>")
@@ -58,8 +58,7 @@ public class NativeStatement extends Pointer implements Statement {
     public void bind(short column, long value) {
         LongPointer longPointer = new LongPointer(1L);
         longPointer.put(value);
-        parameterPointers.add(longPointer);
-        bind(column, longPointer);
+        setParameterPointer(column, longPointer, this::bind);
     }
 
     @Name("bind<long long>")
@@ -69,8 +68,7 @@ public class NativeStatement extends Pointer implements Statement {
     public void bind(short column, float value) {
         FloatPointer floatPointer = new FloatPointer(1L);
         floatPointer.put(value);
-        parameterPointers.add(floatPointer);
-        bind(column, floatPointer);
+        setParameterPointer(column, floatPointer, this::bind);
     }
 
     @Name("bind<float>")
@@ -80,8 +78,7 @@ public class NativeStatement extends Pointer implements Statement {
     public void bind(short column, double value) {
         DoublePointer doublePointer = new DoublePointer(1L);
         doublePointer.put(value);
-        parameterPointers.add(doublePointer);
-        bind(column, doublePointer);
+        setParameterPointer(column, doublePointer, this::bind);
     }
 
     @Name("bind<double>")
@@ -89,53 +86,59 @@ public class NativeStatement extends Pointer implements Statement {
 
     @Override
     public void bind(short column, String value) {
-        BytePointer bytePointer = new BytePointer(value);
-        parameterPointers.add(bytePointer);
-        bind(column, bytePointer);
+        setParameterPointer(column, new BytePointer(value), this::bind);
     }
 
     @Name("bind<::nanodbc::string::value_type>")
     private native void bind(short column, @Cast("::nanodbc::string::value_type*") BytePointer bytePointer);
 
     @Override
-    public void bind(short column, LocalDate date) {
-        NativeDate datePointer = NativeDate.fromLocalDate(date);
-        parameterPointers.add(datePointer);
-        bind(column, datePointer);
+    public void bind(short column, LocalDate value) {
+        setParameterPointer(column, NativeDate.fromLocalDate(value), this::bind);
     }
 
     @Name("bind<::nanodbc::date>")
     private native void bind(short column, NativeDate datePointer);
 
     @Override
-    public void bind(short column, LocalTime time) {
-        NativeTime timePointer = NativeTime.fromLocalTime(time);
-        parameterPointers.add(timePointer);
-        bind(column, timePointer);
+    public void bind(short column, LocalTime value) {
+        setParameterPointer(column, NativeTime.fromLocalTime(value), this::bind);
     }
 
     @Name("bind<::nanodbc::time>")
     private native void bind(short column, NativeTime timePointer);
 
     @Override
-    public void bind(short column, LocalDateTime dateTime) {
-        NativeDateTime dateTimePointer = NativeDateTime.fromLocalDateTime(dateTime);
-        parameterPointers.add(dateTimePointer);
-        bind(column, dateTimePointer);
+    public void bind(short column, LocalDateTime value) {
+        setParameterPointer(column, NativeDateTime.fromLocalDateTime(value), this::bind);
     }
 
     @Name("bind<::nanodbc::timestamp>")
     private native void bind(short column, NativeDateTime dateTimePointer);
 
     @Override
+    public void bindNull(short column) {
+        try {
+            bindNullNative(column);
+        } finally {
+            Pointers.closeQuietly(parameterPointers.remove(column));
+        }
+    }
+
     @Name("bind_null")
-    public native void bindNull(short column);
+    private native void bindNullNative(short column);
 
     @Override
     public NativeResult execute() {
-        NativeResult result = new NativeResult();
-        NativeExt.execute(result, this);
-        return result;
+        NativeResult result = null;
+        try {
+            result = new NativeResult();
+            NativeExt.execute(result, this);
+            return result;
+        } catch (Exception e) {
+            Pointers.closeQuietly(result);
+            throw e;
+        }
     }
 
     @Override
@@ -145,10 +148,19 @@ public class NativeStatement extends Pointer implements Statement {
 
     @Override
     public void close() {
-        for (Pointer parameterPointer : parameterPointers) {
-            parameterPointer.close();
+        for (Pointer parameterPointer : parameterPointers.values()) {
+            Pointers.closeQuietly(parameterPointer);
         }
+        parameterPointers.clear();
         super.close();
+    }
+
+    private <T extends Pointer> void setParameterPointer(short column, T pointer, BiConsumer<Short, T> binder) {
+        try {
+            binder.accept(column, pointer);
+        } finally {
+            Pointers.closeQuietly(parameterPointers.put(column, pointer));
+        }
     }
 
 }
