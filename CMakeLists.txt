@@ -10,6 +10,7 @@ set_option(NANODBC_DISABLE_ASYNC ON)
 set_option(NANODBC_DISABLE_EXAMPLES ON)
 set_option(NANODBC_DISABLE_INSTALL ON)
 set_option(NANODBC_DISABLE_TESTS ON)
+set_option(NANODBC_ENABLE_UNICODE ON)
 
 add_subdirectory(nanodbc)
 add_subdirectory(nanodbc_ext)
