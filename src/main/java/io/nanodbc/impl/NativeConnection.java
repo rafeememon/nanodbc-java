@@ -5,6 +5,7 @@ import org.bytedeco.javacpp.Pointer;
 import org.bytedeco.javacpp.annotation.Name;
 import org.bytedeco.javacpp.annotation.Namespace;
 import org.bytedeco.javacpp.annotation.Platform;
+import org.bytedeco.javacpp.annotation.StdWString;
 
 import io.nanodbc.Connection;
 import io.nanodbc.Transaction;
@@ -35,20 +36,21 @@ public class NativeConnection extends Pointer implements Connection {
 
     private native void allocate();
 
-    private native void allocate(String connectionString);
+    private native void allocate(@StdWString String connectionString);
 
-    private native void allocate(String connectionString, long timeout);
+    private native void allocate(@StdWString String connectionString, long timeout);
 
-    private native void allocate(String dsn, String user, String pass, long timeout);
-
-    @Override
-    public native void connect(String connectionString);
+    private native void allocate(@StdWString String dsn, @StdWString String user, @StdWString String pass,
+            long timeout);
 
     @Override
-    public native void connect(String connectionString, long timeout);
+    public native void connect(@StdWString String connectionString);
 
     @Override
-    public native void connect(String dsn, String user, String pass, long timeout);
+    public native void connect(@StdWString String connectionString, long timeout);
+
+    @Override
+    public native void connect(@StdWString String dsn, @StdWString String user, @StdWString String pass, long timeout);
 
     @Override
     public native boolean connected();
