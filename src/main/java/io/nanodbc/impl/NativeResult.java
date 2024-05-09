@@ -101,11 +101,11 @@ public class NativeResult extends Pointer implements Result {
     public native double getDouble(@StdWString String columnName);
 
     @Override
-    @Name("get<::nanodbc::string>")
+    @Name("get<std::u16string>")
     public native @StdWString String getString(short column);
 
     @Override
-    @Name("get<::nanodbc::string>")
+    @Name("get<std::u16string>")
     public native @StdWString String getString(@StdWString String columnName);
 
     @Override
