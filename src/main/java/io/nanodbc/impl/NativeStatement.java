@@ -14,6 +14,7 @@ import org.bytedeco.javacpp.IntPointer;
 import org.bytedeco.javacpp.Loader;
 import org.bytedeco.javacpp.LongPointer;
 import org.bytedeco.javacpp.Pointer;
+import org.bytedeco.javacpp.annotation.AsUtf16;
 import org.bytedeco.javacpp.annotation.ByRef;
 import org.bytedeco.javacpp.annotation.Cast;
 import org.bytedeco.javacpp.annotation.Name;
@@ -40,9 +41,10 @@ public class NativeStatement extends Pointer implements Statement {
         allocate(connection, query, timeout);
     }
 
-    private native void allocate(@ByRef NativeConnection connection, @NanodbcString String query);
+    private native void allocate(@ByRef NativeConnection connection, @AsUtf16 @NanodbcString String query);
 
-    private native void allocate(@ByRef NativeConnection connection, @NanodbcString String query, long timeout);
+    private native void allocate(@ByRef NativeConnection connection, @AsUtf16 @NanodbcString String query,
+            long timeout);
 
     @Override
     public void bind(short column, int value) {

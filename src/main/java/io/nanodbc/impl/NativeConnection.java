@@ -2,6 +2,7 @@ package io.nanodbc.impl;
 
 import org.bytedeco.javacpp.Loader;
 import org.bytedeco.javacpp.Pointer;
+import org.bytedeco.javacpp.annotation.AsUtf16;
 import org.bytedeco.javacpp.annotation.Name;
 import org.bytedeco.javacpp.annotation.Namespace;
 import org.bytedeco.javacpp.annotation.Platform;
@@ -35,22 +36,22 @@ public class NativeConnection extends Pointer implements Connection {
 
     private native void allocate();
 
-    private native void allocate(@NanodbcString String connectionString);
+    private native void allocate(@NanodbcString @AsUtf16 String connectionString);
 
-    private native void allocate(@NanodbcString String connectionString, long timeout);
+    private native void allocate(@NanodbcString @AsUtf16 String connectionString, long timeout);
 
-    private native void allocate(@NanodbcString String dsn, @NanodbcString String user, @NanodbcString String pass,
-            long timeout);
-
-    @Override
-    public native void connect(@NanodbcString String connectionString);
+    private native void allocate(@NanodbcString @AsUtf16 String dsn, @NanodbcString @AsUtf16 String user,
+            @NanodbcString @AsUtf16 String pass, long timeout);
 
     @Override
-    public native void connect(@NanodbcString String connectionString, long timeout);
+    public native void connect(@NanodbcString @AsUtf16 String connectionString);
 
     @Override
-    public native void connect(@NanodbcString String dsn, @NanodbcString String user, @NanodbcString String pass,
-            long timeout);
+    public native void connect(@NanodbcString @AsUtf16 String connectionString, long timeout);
+
+    @Override
+    public native void connect(@NanodbcString @AsUtf16 String dsn, @NanodbcString @AsUtf16 String user,
+            @NanodbcString @AsUtf16 String pass, long timeout);
 
     @Override
     public native boolean connected();
