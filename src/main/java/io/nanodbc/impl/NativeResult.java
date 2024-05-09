@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+import org.bytedeco.javacpp.BytePointer;
 import org.bytedeco.javacpp.Loader;
 import org.bytedeco.javacpp.Pointer;
 import org.bytedeco.javacpp.annotation.ByRef;
@@ -40,9 +41,21 @@ public class NativeResult extends Pointer implements Result {
     @Name("affected_rows")
     public native long getAffectedRows();
 
+    /*-
     @Override
     @Name("column_name")
-    public native String getColumnName(short column);
+    public native @StdWString String getColumnName(short column);
+    */
+
+    @Override
+    public String getColumnName(short column) {
+        try (BytePointer pointer = getColumnNameNative(column)) {
+            return pointer.getString();
+        }
+    }
+
+    @Name("column_name")
+    private native @StdWString BytePointer getColumnNameNative(short column);
 
     @Override
     public JDBCType getColumnType(short column) {
