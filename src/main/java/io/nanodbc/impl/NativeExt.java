@@ -7,7 +7,7 @@ import org.bytedeco.javacpp.annotation.Name;
 import org.bytedeco.javacpp.annotation.Namespace;
 import org.bytedeco.javacpp.annotation.Platform;
 
-@Platform(include = "nanodbc_ext.h", library = "jninanodbc")
+@Platform(include = "nanodbc_ext.h", library = "jninanodbc", link = "nanodbc")
 @Namespace("nanodbc")
 public class NativeExt {
     static {
