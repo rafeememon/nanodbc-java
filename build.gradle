@@ -94,7 +94,9 @@ task compileJavacpp(type: JavaExec) {
     '-Xcompiler', "/I${nanodbcSrcPath}",
     '-Xcompiler', "/I${nanodbcExtSrcPath}",
     '-Xcompiler', "/DNANODBC_ENABLE_UNICODE",
-    '-Xcompiler', "/D_CRT_SECURE_NO_WARNINGS"
+    '-Xcompiler', "/D_CRT_SECURE_NO_WARNINGS",
+    '-Xcompiler', "/DUNICODE",
+    '-Xcompiler', "/D_UNICODE"
   ]
 }
 
