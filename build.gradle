@@ -92,7 +92,8 @@ task compileJavacpp(type: JavaExec) {
     '-Xcompiler', 'odbc32.lib',
     '-Xcompiler', 'odbccp32.lib',
     '-Xcompiler', "/I${nanodbcSrcPath}",
-    '-Xcompiler', "/I${nanodbcExtSrcPath}"
+    '-Xcompiler', "/I${nanodbcExtSrcPath}",
+    '-Xcompiler', '/D_CRT_SECURE_NO_WARNINGS'
   ]
 }
 
