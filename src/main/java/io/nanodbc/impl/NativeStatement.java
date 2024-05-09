@@ -19,7 +19,6 @@ import org.bytedeco.javacpp.annotation.Cast;
 import org.bytedeco.javacpp.annotation.Name;
 import org.bytedeco.javacpp.annotation.Namespace;
 import org.bytedeco.javacpp.annotation.Platform;
-import org.bytedeco.javacpp.annotation.StdWString;
 
 import io.nanodbc.Statement;
 
@@ -41,9 +40,9 @@ public class NativeStatement extends Pointer implements Statement {
         allocate(connection, query, timeout);
     }
 
-    private native void allocate(@ByRef NativeConnection connection, @StdWString String query);
+    private native void allocate(@ByRef NativeConnection connection, @NanodbcString String query);
 
-    private native void allocate(@ByRef NativeConnection connection, @StdWString String query, long timeout);
+    private native void allocate(@ByRef NativeConnection connection, @NanodbcString String query, long timeout);
 
     @Override
     public void bind(short column, int value) {

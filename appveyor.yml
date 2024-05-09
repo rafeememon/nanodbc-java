@@ -28,6 +28,8 @@ build_script:
 artifacts:
   - path: build/libs/*.jar
     name: jar
+  - path: build/classes/java/main/io/nanodbc/impl/jninanodbc.cpp
+    name: jninanodbc
 
 deploy_script:
   - if "%APPVEYOR_REPO_TAG%"=="true" (gradlew.bat publish -xcompileJavacpp)
