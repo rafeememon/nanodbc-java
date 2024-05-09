@@ -42,7 +42,7 @@ public class NativeResult extends Pointer implements Result {
 
     @Override
     @Name("column_name")
-    public native @StdWString String getColumnName(short column);
+    public native String getColumnName(short column);
 
     @Override
     public JDBCType getColumnType(short column) {
@@ -101,12 +101,24 @@ public class NativeResult extends Pointer implements Result {
     public native double getDouble(@StdWString String columnName);
 
     @Override
-    @Name("get<std::u16string>")
-    public native @StdWString String getString(short column);
+    public String getString(short column) {
+        return "Test";
+    }
 
     @Override
-    @Name("get<std::u16string>")
+    public String getString(String columnName) {
+        return "Test";
+    }
+
+    /*-
+    @Override
+    @Name("get<::nanodbc::string>")
+    public native @StdWString String getString(short column);
+    
+    @Override
+    @Name("get<::nanodbc::string>")
     public native @StdWString String getString(@StdWString String columnName);
+    */
 
     @Override
     public LocalDate getDate(short column) {
