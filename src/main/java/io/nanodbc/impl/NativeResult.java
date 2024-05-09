@@ -11,7 +11,7 @@ import org.bytedeco.javacpp.annotation.ByRef;
 import org.bytedeco.javacpp.annotation.Name;
 import org.bytedeco.javacpp.annotation.Namespace;
 import org.bytedeco.javacpp.annotation.Platform;
-import org.bytedeco.javacpp.annotation.StdString;
+import org.bytedeco.javacpp.annotation.StdWString;
 
 import io.nanodbc.Result;
 
@@ -42,7 +42,7 @@ public class NativeResult extends Pointer implements Result {
 
     @Override
     @Name("column_name")
-    public native @StdString String getColumnName(short column);
+    public native @StdWString String getColumnName(short column);
 
     @Override
     public JDBCType getColumnType(short column) {
@@ -50,7 +50,7 @@ public class NativeResult extends Pointer implements Result {
     }
 
     @Override
-    public JDBCType getColumnType(String columnName) {
+    public JDBCType getColumnType(@StdWString String columnName) {
         return JDBCType.valueOf(getColumnDatatype(columnName));
     }
 
@@ -58,7 +58,7 @@ public class NativeResult extends Pointer implements Result {
     private native int getColumnDatatype(short column);
 
     @Name("column_datatype")
-    private native int getColumnDatatype(String columnName);
+    private native int getColumnDatatype(@StdWString String columnName);
 
     @Override
     @Name("is_null")
@@ -66,7 +66,7 @@ public class NativeResult extends Pointer implements Result {
 
     @Override
     @Name("is_null")
-    public native boolean isNull(String columnName);
+    public native boolean isNull(@StdWString String columnName);
 
     @Override
     @Name("get<int32_t>")
@@ -74,7 +74,7 @@ public class NativeResult extends Pointer implements Result {
 
     @Override
     @Name("get<int32_t>")
-    public native int getInt(String columnName);
+    public native int getInt(@StdWString String columnName);
 
     @Override
     @Name("get<long long>")
@@ -82,7 +82,7 @@ public class NativeResult extends Pointer implements Result {
 
     @Override
     @Name("get<long long>")
-    public native long getLong(String columnName);
+    public native long getLong(@StdWString String columnName);
 
     @Override
     @Name("get<float>")
@@ -90,7 +90,7 @@ public class NativeResult extends Pointer implements Result {
 
     @Override
     @Name("get<float>")
-    public native float getFloat(String columnName);
+    public native float getFloat(@StdWString String columnName);
 
     @Override
     @Name("get<double>")
@@ -98,15 +98,15 @@ public class NativeResult extends Pointer implements Result {
 
     @Override
     @Name("get<double>")
-    public native double getDouble(String columnName);
+    public native double getDouble(@StdWString String columnName);
 
     @Override
     @Name("get<::nanodbc::string>")
-    public native @StdString String getString(short column);
+    public native @StdWString String getString(short column);
 
     @Override
     @Name("get<::nanodbc::string>")
-    public native @StdString String getString(String columnName);
+    public native @StdWString String getString(@StdWString String columnName);
 
     @Override
     public LocalDate getDate(short column) {
@@ -128,7 +128,7 @@ public class NativeResult extends Pointer implements Result {
     private native void getDateRef(short column, @ByRef NativeDate date);
 
     @Name("get_ref<::nanodbc::date>")
-    private native void getDateRef(String columnName, @ByRef NativeDate date);
+    private native void getDateRef(@StdWString String columnName, @ByRef NativeDate date);
 
     @Override
     public LocalTime getTime(short column) {
@@ -139,7 +139,7 @@ public class NativeResult extends Pointer implements Result {
     }
 
     @Override
-    public LocalTime getTime(String columnName) {
+    public LocalTime getTime(@StdWString String columnName) {
         try (NativeTime time = new NativeTime()) {
             getTimeRef(columnName, time);
             return time.toLocalTime();
@@ -150,7 +150,7 @@ public class NativeResult extends Pointer implements Result {
     private native void getTimeRef(short column, @ByRef NativeTime time);
 
     @Name("get_ref<::nanodbc::time>")
-    private native void getTimeRef(String columnName, @ByRef NativeTime time);
+    private native void getTimeRef(@StdWString String columnName, @ByRef NativeTime time);
 
     @Override
     public LocalDateTime getDateTime(short column) {
@@ -161,7 +161,7 @@ public class NativeResult extends Pointer implements Result {
     }
 
     @Override
-    public LocalDateTime getDateTime(String columnName) {
+    public LocalDateTime getDateTime(@StdWString String columnName) {
         try (NativeDateTime dateTime = new NativeDateTime()) {
             getDateTimeRef(columnName, dateTime);
             return dateTime.toLocalDateTime();
@@ -172,6 +172,6 @@ public class NativeResult extends Pointer implements Result {
     private native void getDateTimeRef(short column, @ByRef NativeDateTime date);
 
     @Name("get_ref<::nanodbc::timestamp>")
-    private native void getDateTimeRef(String columnName, @ByRef NativeDateTime date);
+    private native void getDateTimeRef(@StdWString String columnName, @ByRef NativeDateTime date);
 
 }
