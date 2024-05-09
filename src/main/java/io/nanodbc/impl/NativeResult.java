@@ -7,10 +7,12 @@ import java.time.LocalTime;
 
 import org.bytedeco.javacpp.Loader;
 import org.bytedeco.javacpp.Pointer;
+import org.bytedeco.javacpp.annotation.AsUtf16;
 import org.bytedeco.javacpp.annotation.ByRef;
 import org.bytedeco.javacpp.annotation.Name;
 import org.bytedeco.javacpp.annotation.Namespace;
 import org.bytedeco.javacpp.annotation.Platform;
+import org.bytedeco.javacpp.annotation.StdWString;
 
 import io.nanodbc.Result;
 
@@ -41,7 +43,7 @@ public class NativeResult extends Pointer implements Result {
 
     @Override
     @Name("column_name")
-    public native @NanodbcString String getColumnName(short column);
+    public native @StdWString @AsUtf16 String getColumnName(short column);
 
     /*-
     @Override
