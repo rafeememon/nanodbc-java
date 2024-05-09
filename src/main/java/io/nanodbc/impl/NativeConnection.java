@@ -1,5 +1,8 @@
 package io.nanodbc.impl;
 
+import java.nio.charset.Charset;
+
+import org.bytedeco.javacpp.BytePointer;
 import org.bytedeco.javacpp.Loader;
 import org.bytedeco.javacpp.Pointer;
 import org.bytedeco.javacpp.annotation.Name;
@@ -16,6 +19,8 @@ public class NativeConnection extends Pointer implements Connection {
     static {
         Loader.load();
     }
+
+    private static final Charset CHARSET = Charset.forName("UTF-8");
 
     public NativeConnection() {
         allocate();
@@ -84,12 +89,16 @@ public class NativeConnection extends Pointer implements Connection {
 
     @Override
     public void justExecute(String query) {
-        NativeExt.justExecute(this, query);
+        try (BytePointer bytePointer = new BytePointer(query, CHARSET)) {
+            NativeExt.justExecute(this, bytePointer);
+        }
     }
 
     @Override
     public void justExecute(String query, long timeout) {
-        NativeExt.justExecute(this, query, timeout);
+        try (BytePointer bytePointer = new BytePointer(query, CHARSET)) {
+            NativeExt.justExecute(this, bytePointer, timeout);
+        }
     }
 
     @Override
