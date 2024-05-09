@@ -93,7 +93,9 @@ task compileJavacpp(type: JavaExec) {
     '-Xcompiler', 'odbccp32.lib',
     '-Xcompiler', "/I${nanodbcSrcPath}",
     '-Xcompiler', "/I${nanodbcExtSrcPath}",
-    '-Xcompiler', "/DNANODBC_ENABLE_UNICODE=ON"
+    '-Xcompiler', "/I${nanodbcMsbuildPath}",
+    '-Xcompiler', "/DNANODBC_ENABLE_UNICODE",
+    '-Xcompiler', "/D_CRT_SECURE_NO_WARNINGS"
   ]
 }
 
